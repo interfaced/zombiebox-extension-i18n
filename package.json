@@ -1,0 +1,26 @@
+{
+  "name": "zombiebox-extension-i18n",
+  "version": "0.1.0",
+  "main": "zombiebox-extension.js",
+  "scripts": {
+    "test": "node_modules/karma/bin/karma start test/config.js --single-run"
+  },
+  "devDependencies": {
+    "zombiebox": "0.0.199",
+    "karma": "0.12.23",
+    "mocha": "2.4.5",
+    "chai": "3.5.0",
+    "sinon": "1.10.3",
+    "sinon-chai": "2.8.0",
+    "zombiebox-karma": "0.2.0",
+    "karma-chai": "0.1.0",
+    "karma-mocha": "0.1.10",
+    "karma-mocha-reporter": "1.1.5",
+    "karma-phantomjs-launcher": "0.1.4",
+    "karma-closure": "0.1.0",
+    "karma-junit-reporter": "0.2.2",
+    "karma-sinon": "1.0.4",
+    "karma-chai-sinon": "0.1.5",
+    "karma-coverage": "0.5.3"
+  }
+}
