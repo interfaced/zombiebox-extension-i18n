@@ -1,5 +1,9 @@
 # Change log
 
+## 0.5.0-beta.2 (release date: 13.04.2018)
+
+* [Bugfix] Fixed Closure Compiler warnings.
+
 ## 0.5.0-beta.1 (release date: 12.04.2018)
 
 * [Feature] Relative formatting of dates.
