@@ -1,29 +1,48 @@
 # Change log
+
+## 0.4.0-beta.1 (release date: 01.02.2018)
+
+* [Feature] Introduced plugins system.
+* [Feature] Auto generation from CLDR locale data.
+* [Improvement] Code source moved to ES6.
+* [Improvement] Deprecated `i18n.setPluralFormsSeparator` in favour of `i18n.pluralization.setPluralFormsSeparator`.
+* [Improvement] Deprecated `i18n.setPluralValueStub` in favour of `i18n.pluralization.setPluralValueStub`.
+* [Improvement] Updated `cldr-core` to `32`.
+* [Improvement] Updated `cldr-dates-modern` to `32`.
+* [Improvement] Updated `cldr-numbers-modern` to `32`.
+
 ## 0.3.1 (release date: 09.06.2016)
+
 * [Bugfix] Fix installation as dependency of another package.
 
 ## 0.3.0 (release date: 08.06.2016)
+
 * [Feature] Added numbers and currencies formatting.
 * [Improvement] Any numbers supplied to `i18n.trans` will get automatically formatted.
 * [Improvement] Pluralization will no longer work with numeric values provided as strings, use numbers instead.
 
 ## 0.2.0 (release date: 01.06.2016)
+
 * [Feature] Added time formatting via `i18n.time` interface.
 * [Improvement] Added a warning when translating a token fails.
 * [Improvement] Implemented locale narrowing from more specific to less specific when more specific are not supported.
 * [Bugfix] Fixed float number parsing in pluralization module.
 
 ## 0.1.3 (release date: 18.04.2016)
+
 * [Bugfix] Removed trailing comas from some cardinal forms to avoid compilation errors.
 
 ## 0.1.2 (release date: 15.03.2016)
+
 * [Improvement] Added convention about naming of pack keys.
 * [Bugfix] Fixed bug when pluralization and interpolation are in the same time.
 * [Bugfix] Fixed minor mistakes in the readme file.
 
 ## 0.1.1 (release date: 10.03.2016)
+
 * [Improvement] Now packs that were added last have higher priority.
 * [Bugfix] Fixed mistakes in the readme file.
 
 ## 0.1.0 (release date: 01.03.2016)
+
 * Initial release.

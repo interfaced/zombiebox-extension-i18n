@@ -1,10 +1,12 @@
 ### Basic usage
-DateTime object is available from `i18n` service as `i18n.time`.
+
+Plugin object is available from `i18n` service as `i18n.time`.
 
 For most cases basic formats provided by `getFullTime`, `getShortTime`, `getFullDate`, `getShortDate`, `getFullDateTime` and `getShortDateTime` should suffice.
 These take a single argument: `Date` object.
 
 #### Examples
+
 ```JavaScript
 i18n.setLocale('en-US');
 i18n.time.getFullTime(new Date());    // 1:30:54 pm
@@ -26,6 +28,7 @@ i18n.time.getShortDate(new Date());    // 20.12.86
 `getDateTime` accepts three `zb.i18n.datetime.Form`: One that defines the manner of combination of date and time and one for date and time formats each.
 
 #### Formatting
+
 `i18n.time.format` formats any string supporting a range of tokens. Note that this will ignore locales and will format date/time exactly as described in format.
 Since tokens are latin alpha-numeric characters, characters that should appear in the resulting string unformatted should be enclosed with single quotes (`'`).
 To print the single quote itself, put it twice (`''`).
@@ -62,6 +65,7 @@ To print the single quote itself, put it twice (`''`).
 | `x`    | Unix timestamp in ms | 1460639436627656|
 
 #### Examples
+
 ```JavaScript
 var date = new Date('Sat Nov 22 1963 13:30:00 GMT-0600 (CST)');
 
@@ -74,6 +78,7 @@ i18n.time.format(date, 'MMMM d \'approximately at\' HH \'hours\''); // "November
 ### Predefined formats examples
 
 #### Date
+
 | name           | en-US                    | ru                         |
 |----------------|--------------------------|----------------------------|
 | `FULL`         | Thursday, April 14, 2016 | четверг, 14 апреля 2016 г. |

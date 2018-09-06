@@ -1,31 +1,66 @@
 {
   "name": "zombiebox-extension-i18n",
-  "version": "0.3.1",
-  "main": "zombiebox-extension.js",
+  "version": "0.4.0-beta.1",
+  "description": "ZombieBox extension for i18n and l10n",
+  "license": "MIT",
+  "author": "Interfaced (http://interfaced.tv)",
+  "contributors": [
+    "Kirill Dronkin <kirilldronkin@gmail.com>",
+    "Ilya Kalashnikov <npm@kalashnikov.ir>"
+  ],
+  "keywords": [
+    "zombiebox",
+    "extension",
+    "internalization",
+    "i18n",
+    "localization",
+    "l10n"
+  ],
+  "files": [
+    "lib",
+    "generators",
+    "scripts",
+    "index.js",
+    "package.json",
+    "CHANGELOG.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=6",
+    "npm": ">=5"
+  },
   "scripts": {
-    "test": "node_modules/karma/bin/karma start test/config.js --single-run",
-    "postinstall": "node scripts/postinstall.js",
-    "extract-data": "node scripts/extract-locale-data.js"
+    "test": "karma start test/config.js --single-run",
+    "lint": "eslint index.js lib scripts test generators",
+    "postinstall": "node scripts/postinstall.js"
   },
   "devDependencies": {
-    "zombiebox": "0.0.199",
-    "karma": "0.12.23",
-    "mocha": "2.4.5",
     "chai": "3.5.0",
-    "sinon": "1.10.3",
-    "sinon-chai": "2.8.0",
-    "zombiebox-karma": "0.2.0",
+    "eslint": "4.16.0",
+    "eslint-config-interfaced": "0.6.2",
+    "eslint-plugin-goog": "0.4.0",
+    "eslint-plugin-interfaced": "0.5.0",
+    "karma": "0.13.22",
     "karma-chai": "0.1.0",
+    "karma-chai-sinon": "0.1.5",
+    "karma-chrome-launcher": "2.2.0",
+    "karma-closure": "github:ifaced/karma-closure",
+    "karma-coverage": "0.5.3",
     "karma-mocha": "0.1.10",
     "karma-mocha-reporter": "1.1.5",
-    "karma-phantomjs-launcher": "0.1.4",
-    "karma-closure": "https://github.com/Medium/karma-closure#nick-multipleprovides",
-    "karma-junit-reporter": "0.2.2",
     "karma-sinon": "1.0.4",
-    "karma-chai-sinon": "0.1.5",
-    "karma-coverage": "0.5.3",
-    "cldr-core": ">=29",
-    "cldr-dates-modern": ">=29",
-    "cldr-numbers-modern": ">=29"
+    "mocha": "2.4.5",
+    "sinon": "1.10.3",
+    "sinon-chai": "2.8.0",
+    "zombiebox": "1.0.0-alpha10"
+  },
+  "dependencies": {
+    "ast-types": "0.9.12",
+    "cldr-core": "^32.0.0",
+    "cldr-dates-modern": "^32.0.0",
+    "cldr-numbers-modern": "^32.0.0",
+    "escodegen": "1.9.0",
+    "jison": "0.4.17"
   }
 }

@@ -24,6 +24,7 @@ console.log(i18n.trans('home.title')); // Output: "Home"
 ```
 
 # Locales
+
 Locales are defined by [BCP 47](https://tools.ietf.org/html/bcp47). A cleaner explanation is [available from w3c](https://www.w3.org/International/articles/language-tags/
 ).
 
@@ -31,6 +32,10 @@ The extension will try to normalize any locale given to it. That is, replace `_`
 
 Examples of valid locales: `ru`, `ru-KZ`, `en`, `en-US`, `en-GB`. Use [CLDR language identifier](http://unicode.org/cldr/utility/languageid.jsp) to verify if the locales you're providing are valid.
 
+# Plugins
+
+- [Working with date and time](lib/datetime/README.md)
+- [Working with numbers](lib/numbers/README.md)
 
 # Features
 
@@ -87,26 +92,26 @@ console.log(i18n.trans('video-views-plural', {views: 1})); // Output: "This vide
 console.log(i18n.trans('video-views-plural', {views: 3})); // Output: "This video was viewed 3 times"
 ```
 
-Plural forms separator can be customized with *setPluralFormsSeparator*.
+Plural forms separator can be customized with *pluralization.setFormsSeparator*.
 
 ```JavaScript
 i18n.addPack('en', new zb.i18n.Pack({
 	'video-views-plural': 'This video was viewed [views] [viewsPlural:time*times]'
 }));
 
-i18n.setPluralFormsSeparator('*');
+i18n.pluralization.setFormsSeparator('*');
 
 console.log(i18n.trans('video-views-plural', {views: 1})); // Output: "This video was viewed 1 time"
 ```
 
-When pluralization fails the value will be stubbed with string "???" by default, but it can be customized with *setPluralValueStub* method.
+When pluralization fails the value will be stubbed with string "???" by default, but it can be customized with *pluralization.setValueStub* method.
 
 ```JavaScript
 i18n.addPack('en', new zb.i18n.Pack({
 	'video-views-plural': 'This video was viewed [views] [viewsPlural:time]'
 }));
 
-i18n.setPluralValueStub('---');
+i18n.pluralization.setValueStub('---');
 
 console.log(i18n.trans('video-views-plural', {views: 3})); // Output: "This video was viewed 1 ---"
 ```
@@ -117,7 +122,7 @@ Sometimes pack keys cannot be modified (e.g. if the pack was fetched from extern
 
 ```JavaScript
 var enPack = new zb.i18n.Pack({
-	'hom': 'Home scene'
+	'hom': 'Home'
 });
 
 enPack.forwardKeys({

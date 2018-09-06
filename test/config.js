@@ -1,15 +1,63 @@
+const path = require('path');
+const fs = require('fs');
+const numbersGenerator = require('../generators/numbers');
+const datetimeGenerator = require('../generators/datetime');
+const plaralizationGenerator = require('../generators/pluralization');
+
+const zbDeps = ['lib/vendor/base.js', 'console/interfaces/i-logger.js', 'console.js'];
+
+/**
+ * @param {Array<string>} locales
+ */
+function generateFixtures(locales) {
+	const fixtures = {
+		'pluralization-cardinals.js': plaralizationGenerator.generateCardinals(locales),
+		'pluralization-forms.js': plaralizationGenerator.generateForms(locales),
+		'numbers-currencies.js': numbersGenerator.generateCurrencies(locales),
+		'numbers-formats.js': numbersGenerator.generateFormats(locales),
+		'datetime-formats.js': datetimeGenerator.generateFormats(locales)
+	};
+
+	const fixturesPath = path.join(__dirname, 'fixtures');
+	if (!fs.existsSync(fixturesPath)) {
+		fs.mkdirSync(fixturesPath);
+	} else {
+		const files = fs.readdirSync(fixturesPath);
+		files.forEach((fileName) => {
+			fs.unlinkSync(path.join(fixturesPath, fileName));
+		});
+	}
+
+	Object.keys(fixtures)
+		.forEach((fileName) => {
+			fs.writeFileSync(path.join(fixturesPath, fileName), fixtures[fileName], 'utf-8');
+		});
+}
+
+/**
+ * @return {Array<string>}
+ */
+function getAllAvailableLocales() {
+	const cldrCorePath = path.dirname(require.resolve('cldr-core'));
+	const data = JSON.parse(fs.readFileSync(path.join(cldrCorePath, 'availableLocales.json')));
+
+	return data['availableLocales']['modern'];
+}
+
+generateFixtures(getAllAvailableLocales());
+
 /**
  * @param {*} config
  */
-module.exports = function(config) {
+module.exports = (config) => {
 	config.set({
 		// Base path that will be used to resolve all patterns (eg. files, exclude)
 		basePath: '',
 
 		// List of files/patterns to load in the browser
 		files: [
-			'../node_modules/zombiebox/zb/lib/vendor/base.js',
-			'../node_modules/zombiebox/zb/lib/vendor/a.js',
+			...zbDeps.map((file) => `../node_modules/zombiebox/zb/${file}`),
+			'fixtures/*.js',
 			'../lib/**/*.js',
 			'lib/*.js'
 		],
@@ -25,13 +73,15 @@ module.exports = function(config) {
 
 		// Available preprocessors: https://npmjs.com/browse/keyword/karma-preprocessor
 		preprocessors: {
+			'../node_modules/zombiebox/zb/**/*.js': ['closure'],
+			'fixtures/*.js': ['closure'],
 			'../lib/**/*.js': ['closure', 'coverage'],
 			'lib/*.js': ['closure']
 		},
 
 		// Available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: [
-			'PhantomJS'
+			process.platform === 'darwin' ? 'ChromeCanaryHeadless' : 'ChromeHeadless'
 		],
 
 		// Available reporters: https://npmjs.org/browse/keyword/karma-reporter
@@ -44,7 +94,7 @@ module.exports = function(config) {
 		port: 9876,
 
 		// Level of logging
-		logLevel: config.LOG_INFO,
+		logLevel: 'INFO',
 
 		// Enable/disable colors in the output (reporters and logs)
 		colors: true,

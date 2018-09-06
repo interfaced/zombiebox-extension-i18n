@@ -1,34 +1,33 @@
-describe('zb.i18n.Service', function() {
-	var Service = zb.i18n.Service;
-	var Pack = zb.i18n.Pack;
+goog.require('zb.console');
+goog.require('zb.i18n.Pack');
+goog.require('zb.i18n.Service');
 
-	// Fake logger
-	window.zb.console = {
-		error: sinon.spy(),
-		warn: sinon.spy()
-	};
+describe('zb.i18n.Service', () => {
+	const Service = zb.i18n.Service;
+	const Pack = zb.i18n.Pack;
 
-	it('Should be a constructor', function() {
-		var instance;
-		expect(function() {
+	sinon.spy(zb.console, 'error');
+	sinon.spy(zb.console, 'warn');
+
+	it('Should be a constructor', () => {
+		let instance;
+		expect(() => {
 			instance = new Service();
 		}).not.to.throw();
 		expect(instance).to.be.instanceOf(Service);
 	});
 
-	it('Should expose public methods', function() {
-		var prototype = Service.prototype;
+	it('Should expose public methods', () => {
+		const prototype = Service.prototype;
 		expect(prototype.setLocale).to.be.a('function');
 		expect(prototype.setFallbackLocale).to.be.a('function');
-		expect(prototype.setPluralFormsSeparator).to.be.a('function');
-		expect(prototype.setPluralValueStub).to.be.a('function');
 		expect(prototype.isLocaleSupported).to.be.a('function');
 		expect(prototype.addPack).to.be.a('function');
 		expect(prototype.trans).to.be.a('function');
 	});
 
-	it('Method "hasKey" should provide valid logic', function() {
-		var service = new Service();
+	it('Method "hasKey" should provide valid logic', () => {
+		const service = new Service();
 
 		service.addPack('en-US', new Pack({
 			'home': 'Home'
@@ -39,9 +38,9 @@ describe('zb.i18n.Service', function() {
 		expect(service.hasKey('non-existant')).to.be.false;
 	});
 
-	describe('Method "trans"', function() {
-		it('Should translate existing key', function() {
-			var service = new Service();
+	describe('Method "trans"', () => {
+		it('Should translate existing key', () => {
+			const service = new Service();
 
 			service.setLocale('en-US');
 			service.addPack('en-US', new Pack({
@@ -51,8 +50,8 @@ describe('zb.i18n.Service', function() {
 			expect(service.trans('home')).to.be.equal('Home');
 		});
 
-		it('Should return key itself when it is not translatable and produce warning', function() {
-			var service = new Service();
+		it('Should return key itself when it is not translatable and produce warning', () => {
+			const service = new Service();
 
 			window.zb.console.warn.reset();
 
@@ -67,8 +66,8 @@ describe('zb.i18n.Service', function() {
 				.calledWith('No translation found for key "home" in locale "en"');
 		});
 
-		it('Should give higher priority for packs, that were added last', function() {
-			var service = new Service();
+		it('Should give higher priority for packs, that were added last', () => {
+			const service = new Service();
 
 			service.addPack('en-US', new Pack({
 				'home': 'HOME'
@@ -81,9 +80,9 @@ describe('zb.i18n.Service', function() {
 			expect(service.trans('home')).to.be.equal('Home');
 		});
 
-		describe('Interpolation', function() {
-			it('Should interpolate value', function() {
-				var service = new Service();
+		describe('Interpolation', () => {
+			it('Should interpolate value', () => {
+				const service = new Service();
 
 				service.addPack('en-US', new Pack({
 					'home': 'Home of [entity]'
@@ -94,8 +93,8 @@ describe('zb.i18n.Service', function() {
 				})).to.be.equal('Home of the Brave');
 			});
 
-			it('Should interpolate multiple values', function() {
-				var service = new Service();
+			it('Should interpolate multiple values', () => {
+				const service = new Service();
 
 				service.addPack('en-US', new Pack({
 					'home': 'Home of [entity] [entity]'
@@ -106,8 +105,8 @@ describe('zb.i18n.Service', function() {
 				})).to.be.equal('Home of the Brave the Brave');
 			});
 
-			it('Should not interpolate value without right context', function() {
-				var service = new Service();
+			it('Should not interpolate value without right context', () => {
+				const service = new Service();
 
 				service.addPack('en-US', new Pack({
 					'home': 'Home of [entity]'
@@ -117,9 +116,9 @@ describe('zb.i18n.Service', function() {
 			});
 		});
 
-		describe('Pluralization', function() {
-			it('Should pluralize value', function() {
-				var service = new Service();
+		describe('Pluralization', () => {
+			it('Should pluralize value', () => {
+				const service = new Service();
 
 				service.setLocale('ru');
 				service.addPack('ru', new Pack({
@@ -132,8 +131,8 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1,5 просмотра');
 			});
 
-			it('Should pluralize multiple values', function() {
-				var service = new Service();
+			it('Should pluralize multiple values', () => {
+				const service = new Service();
 
 				service.setLocale('ru');
 				service.addPack('ru', new Pack({
@@ -144,8 +143,8 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 0})).to.be.equal('0 просмотров просмотров');
 			});
 
-			it('Should pluralize several different values', function() {
-				var service = new Service();
+			it('Should pluralize several different values', () => {
+				const service = new Service();
 
 				service.setLocale('ru');
 				service.addPack('ru', new Pack({
@@ -156,8 +155,8 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 3, users: 7})).to.be.equal('3 просмотра 7 пользователей');
 			});
 
-			it('Should not pluralize value without right context', function() {
-				var service = new Service();
+			it('Should not pluralize value without right context', () => {
+				const service = new Service();
 
 				service.setLocale('ru');
 				service.addPack('ru', new Pack({
@@ -168,8 +167,8 @@ describe('zb.i18n.Service', function() {
 					.to.be.equal('[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра]');
 			});
 
-			it('Should pluralize and interpolate in the same time', function() {
-				var service = new Service();
+			it('Should pluralize and interpolate in the same time', () => {
+				const service = new Service();
 
 				service.setLocale('ru');
 				service.addPack('ru', new Pack({
@@ -182,8 +181,8 @@ describe('zb.i18n.Service', function() {
 				})).to.be.equal('10 просмотров за сегодня');
 			});
 
-			it('Should handle float values in context', function() {
-				var service = new Service();
+			it('Should handle float values in context', () => {
+				const service = new Service();
 
 				service.setLocale('ru');
 				service.addPack('ru', new Pack({
@@ -193,8 +192,8 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1,5 просмотра');
 			});
 
-			it('Should log error when pluralization is failed', function() {
-				var service = new Service();
+			it('Should log error when pluralization is failed', () => {
+				const service = new Service();
 
 				service.setLocale('invalid');
 				service.addPack('invalid', new Pack({
@@ -209,8 +208,8 @@ describe('zb.i18n.Service', function() {
 					);
 			});
 
-			it('Should stub value when locale is invalid', function() {
-				var service = new Service();
+			it('Should stub value when locale is invalid', () => {
+				const service = new Service();
 
 				service.setLocale('invalid');
 				service.addPack('invalid', new Pack({
@@ -221,8 +220,8 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 3, users: 7})).to.be.equal('3 ??? 7 ???');
 			});
 
-			it('Should stub value when context is invalid', function() {
-				var service = new Service();
+			it('Should stub value when context is invalid', () => {
+				const service = new Service();
 
 				service.setLocale('ru');
 				service.addPack('ru', new Pack({
@@ -233,8 +232,8 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 3, users: 7})).to.be.equal('3 ??? 7 пользователей');
 			});
 
-			it('Should stub value when there is no suitable form', function() {
-				var service = new Service();
+			it('Should stub value when there is no suitable form', () => {
+				const service = new Service();
 
 				service.setLocale('invalid');
 				service.addPack('invalid', new Pack({
@@ -244,11 +243,11 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 2})).to.be.equal('2 ???');
 			});
 
-			it('Method "setPluralFormsSeparator" should provide valid logic', function() {
-				var service = new Service();
+			it('Method "pluralization.setFormsSeparator" should provide valid logic', () => {
+				const service = new Service();
 
 				service.setLocale('ru');
-				service.setPluralFormsSeparator('*');
+				service.pluralization.setFormsSeparator('*');
 				service.addPack('ru', new Pack({
 					'views_plural': '[views] [viewsPlural:просмотр*просмотра*просмотров*просмотра]'
 				}));
@@ -259,11 +258,11 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1,5 просмотра');
 			});
 
-			it('Method "setPluralValueStub" should provide valid logic', function() {
-				var service = new Service();
+			it('Method "pluralization.setValueStub" should provide valid logic', () => {
+				const service = new Service();
 
 				service.setLocale('invalid');
-				service.setPluralValueStub('***');
+				service.pluralization.setValueStub('***');
 				service.addPack('invalid', new Pack({
 					'views_plural': '[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра]'
 				}));
@@ -273,9 +272,9 @@ describe('zb.i18n.Service', function() {
 		});
 	});
 
-	describe('Method "addPack"', function() {
-		it('Should add new pack', function() {
-			var service = new Service();
+	describe('Method "addPack"', () => {
+		it('Should add new pack', () => {
+			const service = new Service();
 
 			service.setLocale('en-US');
 			service.addPack('en-US', new Pack({
@@ -285,24 +284,24 @@ describe('zb.i18n.Service', function() {
 			expect(service.trans('home')).to.be.equal('Home');
 		});
 
-		it('Should not add already added pack', function() {
-			var service = new Service();
-			var pack = new Pack({});
+		it('Should not add already added pack', () => {
+			const service = new Service();
+			const pack = new Pack({});
 
 			service.addPack('en-US', pack);
-			expect(function() {
+			expect(() => {
 				service.addPack('en-US', pack);
 			}).to.throw();
 
-			expect(function() {
+			expect(() => {
 				service.addPack('ru-RU', pack);
 			}).not.to.throw();
 		});
 	});
 
-	describe('Method "setLocale"', function() {
-		it('Should normalize invalid locales', function() {
-			var service = new Service();
+	describe('Method "setLocale"', () => {
+		it('Should normalize invalid locales', () => {
+			const service = new Service();
 
 			service.setLocale('ru-ERR');
 			expect(service.getLocale()).to.equal('ru');
@@ -311,8 +310,8 @@ describe('zb.i18n.Service', function() {
 			expect(service.getLocale()).to.equal('en');
 		});
 
-		it('Should use specified locale', function() {
-			var service = new Service();
+		it('Should use specified locale', () => {
+			const service = new Service();
 
 			service.addPack('en-US', new Pack({
 				'home': 'Home'
@@ -330,9 +329,9 @@ describe('zb.i18n.Service', function() {
 		});
 	});
 
-	describe('Method "setFallbackLocale"', function() {
-		it('Should use specified locale as fallback', function() {
-			var service = new Service();
+	describe('Method "setFallbackLocale"', () => {
+		it('Should use specified locale as fallback', () => {
+			const service = new Service();
 
 			service.addPack('en-US', new Pack({}));
 			service.addPack('ru', new Pack({
@@ -345,8 +344,8 @@ describe('zb.i18n.Service', function() {
 			expect(service.trans('home')).to.be.equal('Главная');
 		});
 
-		it('Should use default fallback locale (en-US)', function() {
-			var service = new Service();
+		it('Should use default fallback locale (en-US)', () => {
+			const service = new Service();
 
 			service.addPack('en-US', new Pack({
 				'home': 'Home'
@@ -356,8 +355,8 @@ describe('zb.i18n.Service', function() {
 			expect(service.trans('home')).to.be.equal('Home');
 		});
 
-		it('Should use fallback locale when locale is not specified', function() {
-			var service = new Service();
+		it('Should use fallback locale when locale is not specified', () => {
+			const service = new Service();
 
 			service.addPack('en-US', new Pack({
 				'home': 'Home'

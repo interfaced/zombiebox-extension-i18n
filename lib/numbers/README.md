@@ -1,14 +1,17 @@
 ### Basic usage
-Numbers object is available from `i18n` service as `i18n.numbers`.
+
+Plugin object is available from `i18n` service as `i18n.numbers`.
 
 It provides functions for number and currency formatting
 
 ### Numbers
+
 Number formatting is done with `formatNumber` function. It takes number as a parameter and optional precision.
 It picks decimal separator and grouping separator (between thousands typically) depending on locale settings.
 If precision is unspecified and number is floating point number, it will retain original number precision.
 
 #### Examples
+
 ```JavaScript
 i18n.setLocale('ru');
 i18n.numbers.formatNumber(1000000);    // 1 000 000
@@ -24,13 +27,16 @@ i18n.numbers.formatNumber(1.222);    // 1.222
 i18n.numbers.formatNumber(1.222, 2);    // 1.22
 i18n.numbers.formatNumber(1, 2);    // 1.00
 ```
+
 ### Currencies
+
 Currency formatting is done with `formatCurrency` function. It takes two mandatory arguments: value and currency identifier (a `string`) and two optional: `boolean` flag denoting whether to include fractional part or not and currency symbol type `zb.i18n.numbers.CurrencySymbolType` (either `FULL` or `NARROW`).
 
 If the third argument (`opt_fractional`) is true, resulting string will always include two symbols after radix separator regardless if the value was integer or not.
 If it false or not supplied, it will never contain fractional part regardless of type of the value likewise.
 
 #### Currency symbols
+
 There are two possible types of currency symbols:
 
 **Narrow** is the default go-to symbol for the currency, but it may be ambiguous for simial currencies used in different countries.
