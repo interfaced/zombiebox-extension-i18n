@@ -149,7 +149,7 @@ function generateVariables(valueName) {
 	const helpers = [];
 	const operands = [];
 
-	// Generates: const numericValue = parseFloat(value, 10);
+	// Generates: const numericValue = <valueName>;
 	helpers.push(b.variableDeclaration('const', [
 		b.variableDeclarator(
 			b.identifier('numericValue'),
@@ -157,7 +157,7 @@ function generateVariables(valueName) {
 		)
 	]));
 
-	// Generates: const stringValue = value.toString();
+	// Generates: const stringValue = <valueName>.toString();
 	helpers.push(b.variableDeclaration('const', [
 		b.variableDeclarator(
 			b.identifier('stringValue'),
@@ -204,7 +204,7 @@ function generateVariables(valueName) {
 		)
 	));
 
-	// Generates: integer = Math.abs(parseInt(integer, 10))    .toFixed(0);
+	// Generates: integer = Math.abs(parseInt(integer, 10)).toFixed(0);
 	helpers.push(b.assignmentStatement(
 		'=',
 		b.identifier('integer'),

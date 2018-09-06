@@ -98,7 +98,7 @@ describe('zb.i18n.pluralization.data', () => {
 
 	describe.skip('Intl conformity', () => {
 		// Known issues:
-		// "yue" – Intl and CLDR provide different results. Which one is correct is unknown
+		// Value 10.9999 exposes several errors in CLDR data with Slavic languages
 
 		for (const [language, languageCardinal] of Object.entries(cardinals)) {
 			it(`Should provide same results as Intl api for "${language}"`, () => {

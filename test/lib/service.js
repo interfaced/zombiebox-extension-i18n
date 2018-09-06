@@ -53,7 +53,7 @@ describe('zb.i18n.Service', () => {
 		it('Should return key itself when it is not translatable and produce warning', () => {
 			const service = new Service();
 
-			window.zb.console.warn.reset();
+			window.zb.console.warn.resetHistory();
 
 			service.setLocale('ru');
 			service.addPack('ru', new Pack({}));

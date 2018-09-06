@@ -1,5 +1,11 @@
 # Change log
 
+## 0.5.0 (release date: 07.08.2018)
+
+* [Improvement] Documentation for relative formatting.
+* [Improvement] Updated CLDR packages to `v33`.
+* [Bugfix] Fixed ISO week number getting.
+
 ## 0.5.0-beta.2 (release date: 13.04.2018)
 
 * [Bugfix] Fixed Closure Compiler warnings.
@@ -16,9 +22,7 @@
 * [Improvement] Code source moved to ES6.
 * [Improvement] Deprecated `i18n.setPluralFormsSeparator` in favour of `i18n.pluralization.setPluralFormsSeparator`.
 * [Improvement] Deprecated `i18n.setPluralValueStub` in favour of `i18n.pluralization.setPluralValueStub`.
-* [Improvement] Updated `cldr-core` to `32`.
-* [Improvement] Updated `cldr-dates-modern` to `32`.
-* [Improvement] Updated `cldr-numbers-modern` to `32`.
+* [Improvement] Updated CLDR packages to `v32`.
 
 ## 0.3.1 (release date: 09.06.2016)
 
