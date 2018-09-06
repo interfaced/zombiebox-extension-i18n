@@ -37,7 +37,7 @@ describe('zb.i18n.Service', function() {
 			expect(service.trans('home')).to.be.equal('Home');
 		});
 
-		it('Should return key itself when one os not translatable', function() {
+		it('Should return key itself when one is not translatable', function() {
 			var service = new Service();
 
 			service.setLocale('en');
@@ -46,15 +46,15 @@ describe('zb.i18n.Service', function() {
 			expect(service.trans('home')).to.be.equal('home');
 		});
 
-		it('Should giving higher priority to packs, that was added earlier', function() {
+		it('Should giving higher priority for packs, that were added last', function() {
 			var service = new Service();
 
 			service.addPack('en', new Pack({
-				'home': 'Home'
+				'home': 'HOME'
 			}));
 
 			service.addPack('en', new Pack({
-				'home': 'HOME'
+				'home': 'Home'
 			}));
 
 			expect(service.trans('home')).to.be.equal('Home');
