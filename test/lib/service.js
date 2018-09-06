@@ -4,7 +4,8 @@ describe('zb.i18n.Service', function() {
 
 	// Fake logger
 	window.zb.console = {
-		error: sinon.spy()
+		error: sinon.spy(),
+		warn: sinon.spy()
 	};
 
 	it('Should be a constructor', function() {
@@ -21,6 +22,7 @@ describe('zb.i18n.Service', function() {
 		expect(prototype.setFallbackLocale).to.be.a('function');
 		expect(prototype.setPluralFormsSeparator).to.be.a('function');
 		expect(prototype.setPluralValueStub).to.be.a('function');
+		expect(prototype.isLocaleSupported).to.be.a('function');
 		expect(prototype.addPack).to.be.a('function');
 		expect(prototype.trans).to.be.a('function');
 	});
@@ -29,31 +31,38 @@ describe('zb.i18n.Service', function() {
 		it('Should translate existing key', function() {
 			var service = new Service();
 
-			service.setLocale('en');
-			service.addPack('en', new Pack({
+			service.setLocale('en-US');
+			service.addPack('en-US', new Pack({
 				'home': 'Home'
 			}));
 
 			expect(service.trans('home')).to.be.equal('Home');
 		});
 
-		it('Should return key itself when one is not translatable', function() {
+		it('Should return key itself when it is not translatable and produce warning', function() {
 			var service = new Service();
 
-			service.setLocale('en');
-			service.addPack('en', new Pack({}));
+			window.zb.console.warn.reset();
+
+			service.setLocale('ru');
+			service.addPack('ru', new Pack({}));
 
 			expect(service.trans('home')).to.be.equal('home');
+
+			expect(zb.console.warn).to.have.been
+				.calledTwice.and
+				.calledWith('No translation found for key "home" in locale "ru". Falling back to "en"').and
+				.calledWith('No translation found for key "home" in locale "en"');
 		});
 
-		it('Should giving higher priority for packs, that were added last', function() {
+		it('Should give higher priority for packs, that were added last', function() {
 			var service = new Service();
 
-			service.addPack('en', new Pack({
+			service.addPack('en-US', new Pack({
 				'home': 'HOME'
 			}));
 
-			service.addPack('en', new Pack({
+			service.addPack('en-US', new Pack({
 				'home': 'Home'
 			}));
 
@@ -64,7 +73,7 @@ describe('zb.i18n.Service', function() {
 			it('Should interpolate value', function() {
 				var service = new Service();
 
-				service.addPack('en', new Pack({
+				service.addPack('en-US', new Pack({
 					'home': 'Home of [entity]'
 				}));
 
@@ -76,7 +85,7 @@ describe('zb.i18n.Service', function() {
 			it('Should interpolate multiple values', function() {
 				var service = new Service();
 
-				service.addPack('en', new Pack({
+				service.addPack('en-US', new Pack({
 					'home': 'Home of [entity] [entity]'
 				}));
 
@@ -88,7 +97,7 @@ describe('zb.i18n.Service', function() {
 			it('Should not interpolate value without right context', function() {
 				var service = new Service();
 
-				service.addPack('en', new Pack({
+				service.addPack('en-US', new Pack({
 					'home': 'Home of [entity]'
 				}));
 
@@ -255,8 +264,8 @@ describe('zb.i18n.Service', function() {
 		it('Should add new pack', function() {
 			var service = new Service();
 
-			service.setLocale('en');
-			service.addPack('en', new Pack({
+			service.setLocale('en-US');
+			service.addPack('en-US', new Pack({
 				'home': 'Home'
 			}));
 
@@ -267,22 +276,32 @@ describe('zb.i18n.Service', function() {
 			var service = new Service();
 			var pack = new Pack({});
 
-			service.addPack('en', pack);
+			service.addPack('en-US', pack);
 			expect(function() {
-				service.addPack('en', pack);
+				service.addPack('en-US', pack);
 			}).to.throw();
 
 			expect(function() {
-				service.addPack('en_GB', pack);
+				service.addPack('ru-RU', pack);
 			}).not.to.throw();
 		});
 	});
 
 	describe('Method "setLocale"', function() {
+		it('Should normalize invalid locales', function() {
+			var service = new Service();
+
+			service.setLocale('ru-ERR');
+			expect(service.getLocale()).to.equal('ru');
+
+			service.setLocale('en_EN');
+			expect(service.getLocale()).to.equal('en');
+		});
+
 		it('Should use specified locale', function() {
 			var service = new Service();
 
-			service.addPack('en', new Pack({
+			service.addPack('en-US', new Pack({
 				'home': 'Home'
 			}));
 
@@ -290,7 +309,7 @@ describe('zb.i18n.Service', function() {
 				'home': 'Главная'
 			}));
 
-			service.setLocale('en');
+			service.setLocale('en-US');
 			expect(service.trans('home')).to.be.equal('Home');
 
 			service.setLocale('ru');
@@ -302,21 +321,21 @@ describe('zb.i18n.Service', function() {
 		it('Should use specified locale as fallback', function() {
 			var service = new Service();
 
-			service.addPack('en', new Pack({}));
+			service.addPack('en-US', new Pack({}));
 			service.addPack('ru', new Pack({
 				'home': 'Главная'
 			}));
 
-			service.setLocale('en');
+			service.setLocale('en-US');
 			service.setFallbackLocale('ru');
 
 			expect(service.trans('home')).to.be.equal('Главная');
 		});
 
-		it('Should use default fallback locale (en)', function() {
+		it('Should use default fallback locale (en-US)', function() {
 			var service = new Service();
 
-			service.addPack('en', new Pack({
+			service.addPack('en-US', new Pack({
 				'home': 'Home'
 			}));
 
@@ -327,7 +346,7 @@ describe('zb.i18n.Service', function() {
 		it('Should use fallback locale when locale is not specified', function() {
 			var service = new Service();
 
-			service.addPack('en', new Pack({
+			service.addPack('en-US', new Pack({
 				'home': 'Home'
 			}));
 

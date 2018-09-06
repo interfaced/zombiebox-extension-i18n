@@ -1,9 +1,11 @@
 {
   "name": "zombiebox-extension-i18n",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "main": "zombiebox-extension.js",
   "scripts": {
-    "test": "node_modules/karma/bin/karma start test/config.js --single-run"
+    "test": "node_modules/karma/bin/karma start test/config.js --single-run",
+    "postinstall": "echo $null >> node_modules/cldr-core/index.js && echo $null >> node_modules/cldr-dates-modern/index.js && echo $null >> node_modules/cldr-numbers-modern/index.js",
+    "extract-data": "node scripts/extract-locale-time-data.js"
   },
   "devDependencies": {
     "zombiebox": "0.0.199",
@@ -17,10 +19,13 @@
     "karma-mocha": "0.1.10",
     "karma-mocha-reporter": "1.1.5",
     "karma-phantomjs-launcher": "0.1.4",
-    "karma-closure": "0.1.0",
+    "karma-closure": "https://github.com/Medium/karma-closure#nick-multipleprovides",
     "karma-junit-reporter": "0.2.2",
     "karma-sinon": "1.0.4",
     "karma-chai-sinon": "0.1.5",
-    "karma-coverage": "0.5.3"
+    "karma-coverage": "0.5.3",
+    "cldr-core": ">=29",
+    "cldr-dates-modern": ">=29",
+    "cldr-numbers-modern": ">=29"
   }
 }

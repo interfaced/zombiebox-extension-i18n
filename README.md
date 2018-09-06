@@ -23,6 +23,15 @@ i18n.setLocale('en');
 console.log(i18n.trans('home.title')); // Output: "Home"
 ```
 
+# Locales
+Locales are defined by [BCP 47](https://tools.ietf.org/html/bcp47). A cleaner explanation is [available from w3c](https://www.w3.org/International/articles/language-tags/
+).
+
+The extension will try to normalize any locale given to it. That is, replace `_` with `-` and reduce the tags. Try to avoid this and supply valid locales.
+
+Examples of valid locales: `ru`, `ru-KZ`, `en`, `en-US`, `en-GB`. Use [CLDR language identifier](http://unicode.org/cldr/utility/languageid.jsp) to verify if the locales you're providing are valid.
+
+
 # Features
 
 - Fallback locale
@@ -33,7 +42,7 @@ console.log(i18n.trans('home.title')); // Output: "Home"
 
 #### Fallback locale
 
-By default fallback locale is "en", but it can be changed with *setFallbackLocale* method.
+By default fallback locale is `en`, but it can be changed with *setFallbackLocale* method.
 
 ```JavaScript
 i18n.addPack('en', new zb.i18n.Pack({
@@ -43,7 +52,7 @@ i18n.addPack('en', new zb.i18n.Pack({
 }));
 
 i18n.addPack('ru', new zb.i18n.Pack({
-	'player': 'Плеер'
+	'player': 'Плеер',
 	'home': {
 		'title': 'Главная'
 	}
@@ -106,7 +115,7 @@ Sometimes pack keys cannot be modified (e.g. if the pack was fetched from extern
 ```JavaScript
 var enPack = new zb.i18n.Pack({
 	'hom': 'Home scene'
-}))
+});
 
 enPack.forwardKeys({
 	'hom': 'home'

@@ -14,9 +14,9 @@ describe('zb.i18n.plurals', function() {
 			});
 	}
 
-	describe('"RU" locale', function() {
+	describe('"ru-RU" locale', function() {
 		it('Should provide valid logic for cardinal', function() {
-			var cardinal = plurals.locales.ru.cardinal;
+			var cardinal = plurals.languages.ru.cardinal;
 
 			expect(cardinal.forms).to.be.deep.equal([
 				zb.i18n.plurals.Form.ONE,
@@ -39,7 +39,7 @@ describe('zb.i18n.plurals', function() {
 		});
 
 		it('Should provide valid logic for ordinal', function() {
-			var ordinal = plurals.locales.ru.ordinal;
+			var ordinal = plurals.languages.ru.ordinal;
 
 			expect(ordinal.forms).to.be.deep.equal([
 				zb.i18n.plurals.Form.OTHER
@@ -51,9 +51,9 @@ describe('zb.i18n.plurals', function() {
 		});
 	});
 
-	describe('"EN" locale', function() {
+	describe('"en-US" locale', function() {
 		it('Should provide valid logic for cardinal', function() {
-			var cardinal = plurals.locales.en.cardinal;
+			var cardinal = plurals.languages.en.cardinal;
 
 			expect(cardinal.forms).to.be.deep.equal([
 				zb.i18n.plurals.Form.ONE,
@@ -69,7 +69,7 @@ describe('zb.i18n.plurals', function() {
 		});
 
 		it('Should provide valid logic for ordinal', function() {
-			var ordinal = plurals.locales.en.ordinal;
+			var ordinal = plurals.languages.en.ordinal;
 
 			expect(ordinal.forms).to.be.deep.equal([
 				zb.i18n.plurals.Form.ONE,

@@ -24,7 +24,7 @@ module.exports = function(config) {
 
 		// Available preprocessors: https://npmjs.com/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'../lib/**/*.js': ['coverage'],
+			'../lib/**/*.js': ['closure', 'coverage'],
 			'lib/*.js': ['closure']
 		},
 
