@@ -67,7 +67,7 @@ To print the single quote itself, put it twice (`''`).
 #### Examples
 
 ```JavaScript
-var date = new Date('Sat Nov 22 1963 13:30:00 GMT-0600 (CST)');
+const date = new Date('Sat Nov 22 1963 13:30:00 GMT-0600 (CST)');
 
 i18n.time.format(date, 'hh:mm:ss a');   // "01:30:00 am"
 i18n.time.format(date, 'EEEE H:mm:ss'); // "Saturday 1:30:00" (en-US locale)

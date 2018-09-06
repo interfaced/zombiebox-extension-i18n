@@ -4,11 +4,8 @@ const jison = require('jison');
 const {transpile} = require('./transpiler');
 const {generateDataModule, convertJSONValueToAST} = require('../utils');
 
-const cldrCorePath = path.dirname(require.resolve('cldr-core'));
-const cldrDataPath = path.resolve(cldrCorePath, 'supplemental');
-
-const cardinalPath = path.resolve(cldrDataPath, 'plurals.json');
-const cardinalData = JSON.parse(fs.readFileSync(cardinalPath, 'utf8'))['supplemental']['plurals-type-cardinal'];
+const pluralsData = require('cldr-core/supplemental/plurals.json');
+const cardinalData = pluralsData['supplemental']['plurals-type-cardinal'];
 
 const parser = new jison.Parser(fs.readFileSync(path.resolve(__dirname, './grammar.jison'), 'utf8'));
 

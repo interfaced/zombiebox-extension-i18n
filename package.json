@@ -1,6 +1,6 @@
 {
   "name": "zombiebox-extension-i18n",
-  "version": "0.4.0-beta.1",
+  "version": "0.5.0-beta.1",
   "description": "ZombieBox extension for i18n and l10n",
   "license": "MIT",
   "author": "Interfaced (http://interfaced.tv)",
@@ -11,7 +11,7 @@
   "keywords": [
     "zombiebox",
     "extension",
-    "internalization",
+    "internationalization",
     "i18n",
     "localization",
     "l10n"
@@ -31,9 +31,8 @@
     "npm": ">=5"
   },
   "scripts": {
-    "test": "karma start test/config.js --single-run",
-    "lint": "eslint index.js lib scripts test generators",
-    "postinstall": "node scripts/postinstall.js"
+    "test": "node scripts/generate-test-fixtures.js && karma start test/config.js --single-run",
+    "lint": "eslint index.js lib test generators scripts"
   },
   "devDependencies": {
     "chai": "3.5.0",

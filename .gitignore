@@ -3,4 +3,3 @@
 node_modules
 test/coverage
 test/fixtures
-scripts/*.json

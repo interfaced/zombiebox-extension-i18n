@@ -41,7 +41,8 @@ class Extension {
 			'pluralization-forms.js': plaralizationGenerator.generateForms(locales),
 			'numbers-currencies.js': numbersGenerator.generateCurrencies(locales),
 			'numbers-formats.js': numbersGenerator.generateFormats(locales),
-			'datetime-formats.js': datetimeGenerator.generateFormats(locales)
+			'datetime-formats.js': datetimeGenerator.generateFormats(locales),
+			'datetime-relative.js': datetimeGenerator.generateRelativeFormats(locales)
 		};
 	}
 }

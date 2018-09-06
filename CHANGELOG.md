@@ -1,5 +1,10 @@
 # Change log
 
+## 0.5.0-beta.1 (release date: 12.04.2018)
+
+* [Feature] Relative formatting of dates.
+* [Bugfix] Fixed CLDR packages path resolving.
+
 ## 0.4.0-beta.1 (release date: 01.02.2018)
 
 * [Feature] Introduced plugins system.

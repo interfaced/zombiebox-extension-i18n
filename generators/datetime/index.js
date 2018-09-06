@@ -1,8 +1,42 @@
-const fs = require('fs');
-const path = require('path');
-const {generateDataModule, convertJSONValueToAST} = require('../utils');
+const {iterateCLDRData, generateDataModule, convertJSONValueToAST} = require('../utils');
 
-const cldrDatesPath = path.join(require.resolve('cldr-dates-modern'), '..', 'main');
+/**
+ * @param {string} locale
+ * @param {Object} input
+ * @return {Object}
+ */
+function processRelativeFormats(locale, input) {
+	const data = {};
+
+	const cldrData = input['main'][locale]['dates']['fields'];
+	const units = ['year', 'month', 'week', 'day', 'hour', 'minute', 'second'];
+
+	for (const unit of units) {
+		data[unit] = {};
+		data[unit]['adverbs'] = {};
+
+		for (const time of ['future', 'past']) {
+			data[unit][time] = {};
+
+			const formats = cldrData[unit]['relativeTime-type-' + time];
+			const pluralForms = Object.keys(formats)
+				.map((key) => formats[key].replace('{0}', '[value]'));
+
+			data[unit][time] = `[valuePlural:${pluralForms.join('|')}]`;
+		}
+
+		const unitData = cldrData[unit];
+		Object.keys(unitData)
+			.forEach((key) => {
+				const adverbMatch = key.match(/relative-type-(-?\d+)/);
+				if (adverbMatch) {
+					data[unit]['adverbs'][adverbMatch[1]] = unitData[key];
+				}
+			});
+	}
+
+	return data;
+}
 
 /**
  * @param {string} locale
@@ -66,20 +100,33 @@ const generator = {
 	generateFormats(locales) {
 		const data = {};
 
-		for (const locale of locales) {
-			const dataPath = path.join(cldrDatesPath, locale, 'ca-gregorian.json');
-
-			if (fs.existsSync(dataPath)) {
-				data[locale] = convertJSONValueToAST(
-					processTimeData(locale, JSON.parse(fs.readFileSync(dataPath, 'utf-8')))
-				);
-			}
+		for (const [locale, localeData] of iterateCLDRData('cldr-dates-modern', 'ca-gregorian.json', locales)) {
+			data[locale] = convertJSONValueToAST(processTimeData(locale, localeData));
 		}
 
 		return generateDataModule(
 			'zb.i18n.datetime.data.formats',
 			['zb.i18n.datetime.Format'],
 			'zb.i18n.datetime.Format',
+			data
+		);
+	},
+
+	/**
+	 * @param {Array<string>} locales
+	 * @return {string}
+	 */
+	generateRelativeFormats(locales) {
+		const data = {};
+
+		for (const [locale, localeData] of iterateCLDRData('cldr-dates-modern', 'dateFields.json', locales)) {
+			data[locale] = convertJSONValueToAST(processRelativeFormats(locale, localeData));
+		}
+
+		return generateDataModule(
+			'zb.i18n.datetime.data.relative',
+			['zb.i18n.datetime.RelativeTimeFormat'],
+			'zb.i18n.datetime.RelativeTimeFormat',
 			data
 		);
 	}

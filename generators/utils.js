@@ -2,6 +2,23 @@ const escodegen = require('escodegen');
 const b = require('ast-types').builders;
 
 /**
+ * @param {string} packageName
+ * @param {string} fileName
+ * @param {Array<string>} locales
+ * @yield {Array<string|Object>}
+ */
+function* iterateCLDRData(packageName, fileName, locales) {
+	for (const locale of locales) {
+		try {
+			// eslint-disable-next-line global-require
+			yield [locale, require(`${packageName}/main/${locale}/${fileName}`)];
+		} catch (e) {
+			console.warn(`Can't find "${packageName}/${fileName}" for locale "${locale}"`);
+		}
+	}
+}
+
+/**
  * @param {Array<string>} chunks
  * @return {ASTNode}
  */
@@ -85,6 +102,7 @@ function generateDataModule(namespace, dependencies, dataType, data) {
 }
 
 module.exports = {
+	iterateCLDRData,
 	createMemberExpression,
 	convertJSONValueToAST,
 	generateDataModule

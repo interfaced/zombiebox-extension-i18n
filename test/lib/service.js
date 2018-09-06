@@ -35,7 +35,7 @@ describe('zb.i18n.Service', () => {
 
 		service.setLocale('en-US');
 		expect(service.hasKey('home')).to.be.true;
-		expect(service.hasKey('non-existant')).to.be.false;
+		expect(service.hasKey('non-existent')).to.be.false;
 	});
 
 	describe('Method "trans"', () => {
@@ -77,6 +77,7 @@ describe('zb.i18n.Service', () => {
 				'home': 'Home'
 			}));
 
+			service.setLocale('en-US');
 			expect(service.trans('home')).to.be.equal('Home');
 		});
 
@@ -88,6 +89,7 @@ describe('zb.i18n.Service', () => {
 					'home': 'Home of [entity]'
 				}));
 
+				service.setLocale('en-US');
 				expect(service.trans('home', {
 					'entity': 'the Brave'
 				})).to.be.equal('Home of the Brave');
@@ -100,6 +102,7 @@ describe('zb.i18n.Service', () => {
 					'home': 'Home of [entity] [entity]'
 				}));
 
+				service.setLocale('en-US');
 				expect(service.trans('home', {
 					'entity': 'the Brave'
 				})).to.be.equal('Home of the Brave the Brave');
@@ -108,6 +111,7 @@ describe('zb.i18n.Service', () => {
 			it('Should not interpolate value without right context', () => {
 				const service = new Service();
 
+				service.setLocale('en-US');
 				service.addPack('en-US', new Pack({
 					'home': 'Home of [entity]'
 				}));
@@ -300,16 +304,6 @@ describe('zb.i18n.Service', () => {
 	});
 
 	describe('Method "setLocale"', () => {
-		it('Should normalize invalid locales', () => {
-			const service = new Service();
-
-			service.setLocale('ru-ERR');
-			expect(service.getLocale()).to.equal('ru');
-
-			service.setLocale('en_EN');
-			expect(service.getLocale()).to.equal('en');
-		});
-
 		it('Should use specified locale', () => {
 			const service = new Service();
 
@@ -344,10 +338,10 @@ describe('zb.i18n.Service', () => {
 			expect(service.trans('home')).to.be.equal('Главная');
 		});
 
-		it('Should use default fallback locale (en-US)', () => {
+		it('Should use default fallback locale (en)', () => {
 			const service = new Service();
 
-			service.addPack('en-US', new Pack({
+			service.addPack('en', new Pack({
 				'home': 'Home'
 			}));
 
@@ -358,7 +352,7 @@ describe('zb.i18n.Service', () => {
 		it('Should use fallback locale when locale is not specified', () => {
 			const service = new Service();
 
-			service.addPack('en-US', new Pack({
+			service.addPack('en', new Pack({
 				'home': 'Home'
 			}));
 

@@ -1,8 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-const {generateDataModule, convertJSONValueToAST} = require('../utils');
-
-const cldrNumbersPath = path.join(require.resolve('cldr-numbers-modern'), '..', 'main');
+const {iterateCLDRData, generateDataModule, convertJSONValueToAST} = require('../utils');
 
 /**
  * @param {string} locale
@@ -74,14 +70,8 @@ const generator = {
 	generateCurrencies(locales) {
 		const data = {};
 
-		for (const locale of locales) {
-			const dataPath = path.join(cldrNumbersPath, locale, 'currencies.json');
-
-			if (fs.existsSync(dataPath)) {
-				data[locale] = convertJSONValueToAST(
-					processCurrenciesData(locale, JSON.parse(fs.readFileSync(dataPath, 'utf-8')))
-				);
-			}
+		for (const [locale, localeData] of iterateCLDRData('cldr-numbers-modern', 'currencies.json', locales)) {
+			data[locale] = convertJSONValueToAST(processCurrenciesData(locale, localeData));
 		}
 
 		return generateDataModule(
@@ -99,14 +89,8 @@ const generator = {
 	generateFormats(locales) {
 		const data = {};
 
-		for (const locale of locales) {
-			const dataPath = path.join(cldrNumbersPath, locale, 'numbers.json');
-
-			if (fs.existsSync(dataPath)) {
-				data[locale] = convertJSONValueToAST(
-					processNumbersData(locale, JSON.parse(fs.readFileSync(dataPath, 'utf-8')))
-				);
-			}
+		for (const [locale, localeData] of iterateCLDRData('cldr-numbers-modern', 'numbers.json', locales)) {
+			data[locale] = convertJSONValueToAST(processNumbersData(locale, localeData));
 		}
 
 		return generateDataModule(

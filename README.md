@@ -1,10 +1,14 @@
+# zombiebox-extension-i18n
+
+[ZombieBox](https://zombiebox.tv) extension for i18n and l10n.
+
 # Usage
 
 ```JavaScript
 goog.require('zb.i18n.Service');
 goog.require('zb.i18n.Pack');
 
-var i18n = new zb.i18n.Service();
+const i18n = new zb.i18n.Service();
 
 i18n.addPack('en', new zb.i18n.Pack({
 	'home': {
@@ -25,8 +29,7 @@ console.log(i18n.trans('home.title')); // Output: "Home"
 
 # Locales
 
-Locales are defined by [BCP 47](https://tools.ietf.org/html/bcp47). A cleaner explanation is [available from w3c](https://www.w3.org/International/articles/language-tags/
-).
+Locales are defined by [BCP 47](https://tools.ietf.org/html/bcp47). A cleaner explanation is [available from w3c](https://www.w3.org/International/articles/language-tags/).
 
 The extension will try to normalize any locale given to it. That is, replace `_` with `-` and reduce the tags. Try to avoid this and supply valid locales.
 
@@ -121,7 +124,7 @@ console.log(i18n.trans('video-views-plural', {views: 3})); // Output: "This vide
 Sometimes pack keys cannot be modified (e.g. if the pack was fetched from external API). For such cases packs have method *forwardKeys* that maps keys to their new values.
 
 ```JavaScript
-var enPack = new zb.i18n.Pack({
+const enPack = new zb.i18n.Pack({
 	'hom': 'Home'
 });
 
@@ -139,7 +142,7 @@ console.log(i18n.trans('home')); // Output: "Home"
 Separator can be customized with *setKeySeparator*  method.
 
 ```JavaScript
-var enPack = new zb.i18n.Pack({
+const enPack = new zb.i18n.Pack({
 	'home': {
 		'title': 'Home'
 	}
@@ -155,8 +158,8 @@ console.log(i18n.trans('home:title')); // Output: "Home"
 # Conventions
 
 - Chunks of the pack key should be separated by "-" (e.g. *'red-button-title': ...*)
-- Pack variable should be named with name of the locale as prefix (e.g. *var enPack = new zb.i18n.Pack({...})*)
-- Values that includes raw html should be named with -html postfix (e.g. *title-html: "```My<br>Title```*")
+- Pack variable should be named with name of the locale as prefix (e.g. *const enPack = new zb.i18n.Pack({...})*)
+- Values that include raw html should be named with -html postfix (e.g. *title-html: "```My<br>Title```*")
 - Values for pluralization should be named with -plural postfix (e.g. *views-plural: "[views] [viewsPlural:time|times]*")
 
 # Running tests
