@@ -27,6 +27,18 @@ describe('zb.i18n.Service', function() {
 		expect(prototype.trans).to.be.a('function');
 	});
 
+	it('Method "hasKey" should provide valid logic', function() {
+		var service = new Service();
+
+		service.addPack('en-US', new Pack({
+			'home': 'Home'
+		}));
+
+		service.setLocale('en-US');
+		expect(service.hasKey('home')).to.be.true;
+		expect(service.hasKey('non-existant')).to.be.false;
+	});
+
 	describe('Method "trans"', function() {
 		it('Should translate existing key', function() {
 			var service = new Service();
@@ -117,7 +129,7 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 0})).to.be.equal('0 просмотров');
 				expect(service.trans('views_plural', {views: 1})).to.be.equal('1 просмотр');
 				expect(service.trans('views_plural', {views: 2})).to.be.equal('2 просмотра');
-				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1.5 просмотра');
+				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1,5 просмотра');
 			});
 
 			it('Should pluralize multiple values', function() {
@@ -130,6 +142,18 @@ describe('zb.i18n.Service', function() {
 				}));
 
 				expect(service.trans('views_plural', {views: 0})).to.be.equal('0 просмотров просмотров');
+			});
+
+			it('Should pluralize several different values', function() {
+				var service = new Service();
+
+				service.setLocale('ru');
+				service.addPack('ru', new Pack({
+					'views_plural': '[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра] ' +
+					'[users] [usersPlural:пользователь|пользователя|пользователей|пользователя]'
+				}));
+
+				expect(service.trans('views_plural', {views: 3, users: 7})).to.be.equal('3 просмотра 7 пользователей');
 			});
 
 			it('Should not pluralize value without right context', function() {
@@ -158,18 +182,6 @@ describe('zb.i18n.Service', function() {
 				})).to.be.equal('10 просмотров за сегодня');
 			});
 
-			it('Should handle non number values in context', function() {
-				var service = new Service();
-
-				service.setLocale('ru');
-				service.addPack('ru', new Pack({
-					'views_plural': '[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра]'
-				}));
-
-				expect(service.trans('views_plural', {views: '1000'})).to.be.equal('1000 просмотров');
-				expect(service.trans('views_plural', {views: '1 000'})).to.be.equal('1 000 просмотров');
-			});
-
 			it('Should handle float values in context', function() {
 				var service = new Service();
 
@@ -178,8 +190,7 @@ describe('zb.i18n.Service', function() {
 					'views_plural': '[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра]'
 				}));
 
-				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1.5 просмотра');
-				expect(service.trans('views_plural', {views: '1.5'})).to.be.equal('1.5 просмотра');
+				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1,5 просмотра');
 			});
 
 			it('Should log error when pluralization is failed', function() {
@@ -203,10 +214,11 @@ describe('zb.i18n.Service', function() {
 
 				service.setLocale('invalid');
 				service.addPack('invalid', new Pack({
-					'views_plural': '[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра]'
+					'views_plural': '[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра] ' +
+					'[users] [usersPlural:пользователь|пользователя|пользователей|пользователя]'
 				}));
 
-				expect(service.trans('views_plural', {views: 2})).to.be.equal('2 ???');
+				expect(service.trans('views_plural', {views: 3, users: 7})).to.be.equal('3 ??? 7 ???');
 			});
 
 			it('Should stub value when context is invalid', function() {
@@ -214,10 +226,11 @@ describe('zb.i18n.Service', function() {
 
 				service.setLocale('ru');
 				service.addPack('ru', new Pack({
-					'views_plural': '[views] [viewsPlural:просмотр*просмотра*просмотров*просмотра]'
+					'views_plural': '[views] [viewsPlural:просмотр*просмотра*просмотров*просмотра] ' +
+					'[users] [usersPlural:пользователь|пользователя|пользователей|пользователя]'
 				}));
 
-				expect(service.trans('views_plural', {views: 'foo'})).to.be.equal('foo ???');
+				expect(service.trans('views_plural', {views: 3, users: 7})).to.be.equal('3 ??? 7 пользователей');
 			});
 
 			it('Should stub value when there is no suitable form', function() {
@@ -243,7 +256,7 @@ describe('zb.i18n.Service', function() {
 				expect(service.trans('views_plural', {views: 0})).to.be.equal('0 просмотров');
 				expect(service.trans('views_plural', {views: 1})).to.be.equal('1 просмотр');
 				expect(service.trans('views_plural', {views: 2})).to.be.equal('2 просмотра');
-				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1.5 просмотра');
+				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1,5 просмотра');
 			});
 
 			it('Method "setPluralValueStub" should provide valid logic', function() {

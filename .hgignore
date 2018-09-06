@@ -3,3 +3,5 @@
 node_modules
 test/coverage
 scripts/timedata.json
+scripts/currenciesdata.json
+scripts/numbersdata.json

@@ -73,6 +73,9 @@ i18n.addPack('en', new zb.i18n.Pack({
 console.log(i18n.trans('video-views', {views: 3})); // Output: "This video was viewed 3 time(s)"
 ```
 
+Values for pluralisation should be ether `string` or `number`. Numbers will be automatically formatted (see numbers/README.md for details).
+If you wish to preformat a number, supply it as a `string`.
+
 #### Pluralization
 
 ```JavaScript

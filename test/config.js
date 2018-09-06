@@ -9,6 +9,7 @@ module.exports = function(config) {
 		// List of files/patterns to load in the browser
 		files: [
 			'../node_modules/zombiebox/zb/lib/vendor/base.js',
+			'../node_modules/zombiebox/zb/lib/vendor/a.js',
 			'../lib/**/*.js',
 			'lib/*.js'
 		],
