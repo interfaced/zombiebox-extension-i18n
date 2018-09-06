@@ -1,6 +1,6 @@
 {
   "name": "zombiebox-extension-i18n",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "zombiebox-extension.js",
   "scripts": {
     "test": "node_modules/karma/bin/karma start test/config.js --single-run"

@@ -8,13 +8,13 @@ var i18n = new zb.i18n.Service();
 
 i18n.addPack('en', new zb.i18n.Pack({
 	'home': {
-		title: 'Home'
+		'title': 'Home'
 	}
 }));
 
 i18n.addPack('ru', new zb.i18n.Pack({
 	'home': {
-		title: 'Главная'
+		'title': 'Главная'
 	}
 }));
 
@@ -38,14 +38,14 @@ By default fallback locale is "en", but it can be changed with *setFallbackLocal
 ```JavaScript
 i18n.addPack('en', new zb.i18n.Pack({
 	'home': {
-		title: 'Home'
+		'title': 'Home'
 	}
 }));
 
 i18n.addPack('ru', new zb.i18n.Pack({
 	'player': 'Плеер'
 	'home': {
-		title: 'Главная'
+		'title': 'Главная'
 	}
 }));
 
@@ -124,7 +124,7 @@ Separator can be customized with *setKeySeparator*  method.
 ```JavaScript
 var enPack = new zb.i18n.Pack({
 	'home': {
-		title: 'Home'
+		'title': 'Home'
 	}
 });
 
@@ -137,9 +137,10 @@ console.log(i18n.trans('home:title')); // Output: "Home"
 
 # Conventions
 
+- Chunks of the pack key should me separated by "-" (e.g. *'red-button-title': ...*)
+- Pack variable should be named with name of the locale as prefix (e.g. *var enPack = new zb.i18n.Pack({...})*)
 - Values that includes raw html should be named with -html postfix (e.g. *title-html: "```My<br>Title```*")
 - Values for pluralization should be named with -plural postfix (e.g. *views-plural: "[views] [viewsPlural:time|times]*")
-- Pack variable should be named with name of the locale as prefix (e.g. *var enPack = new zb.i18n.Pack({})*)
 
 # Running tests
 

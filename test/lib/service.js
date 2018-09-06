@@ -135,6 +135,20 @@ describe('zb.i18n.Service', function() {
 					.to.be.equal('[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра]');
 			});
 
+			it('Should pluralize and interpolate in the same time', function() {
+				var service = new Service();
+
+				service.setLocale('ru');
+				service.addPack('ru', new Pack({
+					'views_plural': '[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра] [period]'
+				}));
+
+				expect(service.trans('views_plural', {
+					'views': 10,
+					'period': 'за сегодня'
+				})).to.be.equal('10 просмотров за сегодня');
+			});
+
 			it('Should handle non number values in context', function() {
 				var service = new Service();
 
