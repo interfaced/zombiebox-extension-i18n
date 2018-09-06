@@ -1,4 +1,6 @@
 # Change log
+## 0.3.1 (release date: 09.06.2016)
+* [Bugfix] Fix installation as dependency of another package.
 
 ## 0.3.0 (release date: 08.06.2016)
 * [Feature] Added numbers and currencies formatting.

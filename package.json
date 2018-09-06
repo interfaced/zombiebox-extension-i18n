@@ -1,10 +1,10 @@
 {
   "name": "zombiebox-extension-i18n",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "zombiebox-extension.js",
   "scripts": {
     "test": "node_modules/karma/bin/karma start test/config.js --single-run",
-    "postinstall": "echo $null >> node_modules/cldr-core/index.js && echo $null >> node_modules/cldr-dates-modern/index.js && echo $null >> node_modules/cldr-numbers-modern/index.js",
+    "postinstall": "node scripts/postinstall.js",
     "extract-data": "node scripts/extract-locale-data.js"
   },
   "devDependencies": {
