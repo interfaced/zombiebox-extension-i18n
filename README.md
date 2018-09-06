@@ -137,7 +137,7 @@ console.log(i18n.trans('home:title')); // Output: "Home"
 
 # Conventions
 
-- Chunks of the pack key should me separated by "-" (e.g. *'red-button-title': ...*)
+- Chunks of the pack key should be separated by "-" (e.g. *'red-button-title': ...*)
 - Pack variable should be named with name of the locale as prefix (e.g. *var enPack = new zb.i18n.Pack({...})*)
 - Values that includes raw html should be named with -html postfix (e.g. *title-html: "```My<br>Title```*")
 - Values for pluralization should be named with -plural postfix (e.g. *views-plural: "[views] [viewsPlural:time|times]*")

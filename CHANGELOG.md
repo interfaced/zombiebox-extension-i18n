@@ -1,5 +1,8 @@
 # Change log
 
+## 0.1.3 (release date: 18.04.2016)
+* [Bugfix] Removed trailing comas from some cardinal forms to avoid compilation errors
+
 ## 0.1.2 (release date: 15.03.2016)
 * [Improvement] Added convention about naming of pack keys
 * [Bugfix] Fixed bug when pluralization and interpolation are in the same time
