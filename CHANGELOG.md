@@ -1,5 +1,10 @@
 # Change log
 
+## 0.6.0 (release date: 22.01.2019)
+
+* [Improvement] Updated CLDR packages to `v34`.
+* [Bugfix] Fixed the bug that may lead to an invalid formatting of dates and numbers in compiled mode.
+
 ## 0.5.0 (release date: 07.08.2018)
 
 * [Improvement] Documentation for relative formatting.

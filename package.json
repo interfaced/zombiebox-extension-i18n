@@ -1,6 +1,6 @@
 {
   "name": "zombiebox-extension-i18n",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "ZombieBox extension for i18n and l10n",
   "license": "MIT",
   "author": "Interfaced (http://interfaced.tv)",
@@ -55,9 +55,9 @@
   },
   "dependencies": {
     "ast-types": "0.11.5",
-    "cldr-core": "^33.0.0",
-    "cldr-dates-modern": "^33.0.0",
-    "cldr-numbers-modern": "^33.0.0",
+    "cldr-core": "^34.0.0",
+    "cldr-dates-modern": "^34.0.0",
+    "cldr-numbers-modern": "^34.0.0",
     "escodegen": "1.10.0",
     "jison": "0.4.18"
   }

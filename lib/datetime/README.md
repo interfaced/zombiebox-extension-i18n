@@ -171,5 +171,5 @@ const {YEAR, MINUTE, SECOND} = zb.i18n.datetime.Unit;
 i18n.time.relative(july4th2018, july5th2018, {minUnit: YEAR}); // "this year"
 i18n.time.relative(july4th2018, july5th2018, {maxUnit: SECOND}); // "86,400 seconds ago"
 i18n.time.relative(july4th2018, july5th2018, {minUnit: MINUTE, maxUnit: MINUTE}); // "1,440 minutes ago"
-i18n.time.relative(july4th2018, july5th2018, {minUnit: YEAR, maxUnit: MONTH}); // Trows Error
+i18n.time.relative(july4th2018, july5th2018, {minUnit: YEAR, maxUnit: MONTH}); // Throws Error
 ```

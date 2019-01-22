@@ -172,6 +172,13 @@ The extension sometimes makes some assumptions and simplifications about data or
  * Internally, the extension uses its own translation system to store and retrieve various formats. It's possible to interfere with it for better or worse, but care should be taken.
 
  * Timezone names are not supported in time formatting.
+ 
+Context object (the second argument of `trans` method) keys must be quoted according to the restrictions imposed by the Closure Compiler (see [Implications of global variable, function, and property renaming](https://developers.google.com/closure/compiler/docs/limitations#implications-of-global-variable-function-and-property-renaming)):
+
+```js
+i18n.trans('video-views', {views: 3}); // Bad
+i18n.trans('video-views', {'views': 3}); // Good
+```
 
 # Tests
 
