@@ -1,6 +1,6 @@
-goog.require('zb.i18n.pluralization.Form');
-goog.require('zb.i18n.pluralization.data.cardinals');
-goog.require('zb.i18n.pluralization.data.forms');
+import cardinals from 'generated/i18n/pluralization/cardinals';
+import forms from 'generated/i18n/pluralization/forms';
+import {Form} from 'i18n/pluralization/types';
 
 const {
 	ZERO,
@@ -9,7 +9,7 @@ const {
 	FEW,
 	MANY,
 	OTHER
-} = zb.i18n.pluralization.Form;
+} = Form;
 
 const validForms = [ZERO, ONE, TWO, FEW, MANY, OTHER];
 const testValues = [
@@ -20,10 +20,7 @@ const testValues = [
 	100, 101, 1000, 1e6, 1e7 + 1, 1e8 + 2
 ];
 
-describe('zb.i18n.pluralization.data', () => {
-	const cardinals = zb.i18n.pluralization.data.cardinals;
-	const forms = zb.i18n.pluralization.data.forms;
-
+describe('Pluralization data', () => {
 	/**
 	 * @param {number} start
 	 * @param {number} count
@@ -80,20 +77,20 @@ describe('zb.i18n.pluralization.data', () => {
 		});
 	});
 
-	describe('All languages', () => {
-		for (const [language, languageForms] of Object.entries(forms)) {
-			it(`Should provide sane forms for ${language}`, () => {
-				expect(validForms).to.include.members(languageForms);
-			});
-		}
+	describe('All languages sanity check', () => {
+		it(`Should provide sane forms`, () => {
+			for (const [language, languageForms] of Object.entries(forms)) {
+				expect(validForms, `Forms for ${language}`).to.include.members(languageForms);
+			}
+		});
 
-		for (const [language, languageCardinal] of Object.entries(cardinals)) {
-			it(`Should provide sane results for ${language}`, () => {
+		it(`Should provide sane results`, () => {
+			for (const [language, languageCardinal] of Object.entries(cardinals)) {
 				testValues.forEach((value) => {
-					expect(languageCardinal(value)).to.be.oneOf(validForms);
+					expect(languageCardinal(value), `Value ${value} in ${language}`).to.be.oneOf(validForms);
 				});
-			});
-		}
+			}
+		});
 	});
 
 	describe.skip('Intl conformity', () => {
@@ -105,7 +102,8 @@ describe('zb.i18n.pluralization.data', () => {
 				const intlCardinal = new Intl.PluralRules(language);
 
 				testValues.forEach((value) => {
-					expect(languageCardinal(value), `value ${value}`).to.equal(intlCardinal.select(value));
+					expect(languageCardinal(value), `Value ${value} in ${language}`)
+						.to.equal(intlCardinal.select(value));
 				});
 			});
 		}

@@ -30,7 +30,7 @@ i18n.numbers.formatNumber(1, 2); // "1.00"
 
 ## Currencies
 
-Currency formatting is done with `formatCurrency` function. It takes two mandatory arguments: value and currency identifier (a `string`) and two optional: `boolean` flag denoting whether to include fractional part or not and currency symbol type `zb.i18n.numbers.CurrencySymbolType` (either `FULL` or `NARROW`).
+Currency formatting is done with `formatCurrency` function. It takes two mandatory arguments: value and currency identifier (a `string`) and two optional: `boolean` flag denoting whether to include fractional part or not and currency symbol type `CurrencySymbolType` (either `FULL` or `NARROW`).
 
 If the third argument (`opt_fractional`) is true, resulting string will always include two symbols after radix separator regardless if the value was integer or not.
 If it is false or not supplied, it will never contain fractional part regardless of type of the value likewise.
@@ -53,6 +53,8 @@ See [CLDR article](http://cldr.unicode.org/translation/currency-names) for more 
 Note that currency symbols are often not widely available Unicode symbols.
 
 ```js
+import {CurrencySymbolType} from 'i18n/numbers/types';
+
 i18n.setLocale('ru-RU');
 i18n.numbers.formatCurrency(1000000, 'RUB'); // "1 000 000 ₽"
 i18n.numbers.formatCurrency(1000000, 'USD'); // "1 000 000 $"
@@ -74,6 +76,6 @@ i18n.setLocale('en-US');
 i18n.numbers.formatCurrency(100.50, 'USD', true); // "$100.00"
 i18n.numbers.formatCurrency(100.50, 'AUD', true); // "$100.00"
 
-i18n.numbers.formatCurrency(100.50, 'USD', true, zb.i18n.numbers.CurrencySymbolType.FULL); // "$100.00"
-i18n.numbers.formatCurrency(100.50, 'AUD', true, zb.i18n.numbers.CurrencySymbolType.FULL); // "$A100.00"
+i18n.numbers.formatCurrency(100.50, 'USD', true, CurrencySymbolType.FULL); // "$100.00"
+i18n.numbers.formatCurrency(100.50, 'AUD', true, CurrencySymbolType.FULL); // "$A100.00"
 ```

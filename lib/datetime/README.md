@@ -23,9 +23,9 @@ i18n.setLocale('ru-RU');
 i18n.time.getShortDate(new Date()); // "20.12.1986"
 ```
 
-`getTime` and `getDate` provide more options accepting `zb.i18n.datetime.Form` (one of `LONG`, `FULL`, `MEDIUM` or `SHORT`). See below for list of formats.
+`getTime` and `getDate` provide more options accepting `Form` (one of `LONG`, `FULL`, `MEDIUM` or `SHORT`). See below for list of formats.
 
-`getDateTime` accepts three `zb.i18n.datetime.Form`: One that defines the manner of combination of date and time and one for date and time formats each.
+`getDateTime` accepts three `Form`: One that defines the manner of combination of date and time and one for date and time formats each.
 
 ## Formatting
 
@@ -143,7 +143,7 @@ i18n.time.relative(july4th2018, july2nd2018); // "послезавтра"
 
 ### Options
 
-`i18n.time.relative` accepts a third argument, `zb.i18n.datetime.RelativeTimeOptions` that configures its output.
+`i18n.time.relative` accepts a third argument, `RelativeTimeOptions` that configures its output.
 
 #### `useAdverbs`
 
@@ -160,13 +160,15 @@ i18n.time.relative(july4th2018, july5th2018, {useAdverbs: false}); // "1 day ago
 
 #### `minUnit` and `maxUnit`
 
-Both are `zb.i18n.datetime.Unit`. Limit selection of units that `i18n.time.relative` will use to format time. Both limits are inclusive. If you provide the same unit for both, exactly that unit will be used. Providing `minUnit` wider than `maxUnit` will produce an exception.
+Both are `Unit`. Limit selection of units that `i18n.time.relative` will use to format time. Both limits are inclusive. If you provide the same unit for both, exactly that unit will be used. Providing `minUnit` wider than `maxUnit` will produce an exception.
 
 ```js
+import {Unit} from 'i18n/datetime/types';
+
 const july4th2018 = new Date(2018, 6, 4);
 const july5th2018 = new Date(2018, 6, 5);
 
-const {YEAR, MINUTE, SECOND} = zb.i18n.datetime.Unit;
+const {YEAR, MINUTE, SECOND} = Unit;
 
 i18n.time.relative(july4th2018, july5th2018, {minUnit: YEAR}); // "this year"
 i18n.time.relative(july4th2018, july5th2018, {maxUnit: SECOND}); // "86,400 seconds ago"

@@ -1,4 +1,4 @@
-const {iterateCLDRData, generateDataModule, convertJSONValueToAST} = require('../utils');
+const {iterateCLDRData, generateImport, generateDataModule, convertJSONValueToAST} = require('../utils');
 
 /**
  * @param {string} locale
@@ -104,12 +104,9 @@ const generator = {
 			data[locale] = convertJSONValueToAST(processTimeData(locale, localeData));
 		}
 
-		return generateDataModule(
-			'zb.i18n.datetime.data.formats',
-			['zb.i18n.datetime.Format'],
-			'zb.i18n.datetime.Format',
-			data
-		);
+		return generateDataModule(data, 'Format', [
+			generateImport('Format', 'i18n/datetime/types')
+		]);
 	},
 
 	/**
@@ -123,12 +120,9 @@ const generator = {
 			data[locale] = convertJSONValueToAST(processRelativeFormats(locale, localeData));
 		}
 
-		return generateDataModule(
-			'zb.i18n.datetime.data.relative',
-			['zb.i18n.datetime.RelativeTimeFormat'],
-			'zb.i18n.datetime.RelativeTimeFormat',
-			data
-		);
+		return generateDataModule(data, 'RelativeTimeFormat', [
+			generateImport('RelativeTimeFormat', 'i18n/datetime/types')
+		]);
 	}
 };
 

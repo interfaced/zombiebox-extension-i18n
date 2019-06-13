@@ -1,5 +1,22 @@
 # Change log
 
+## 2.0.0 (release date: 13.06.2019)
+
+* Support ZombieBox 2.0
+
+## 2.0.0-alpha.2 (release date: 23.05.2019)
+
+* Support ZombieBox alpha.8 (implement AbstractExtension)
+* Drop support for Node 8
+
+## 2.0.0-alpha.1 (release date: 13.02.2019)
+
+Extension code migrated to ECMAScript modules.
+
+## 1.0.0 (release date: 01.02.2019)
+
+* [Improvement] Updates for ZombieBox 1.0 compatibility
+
 ## 0.6.0 (release date: 22.01.2019)
 
 * [Improvement] Updated CLDR packages to `v34`.

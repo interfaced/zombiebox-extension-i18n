@@ -1,54 +1,63 @@
 const path = require('path');
-const plaralizationGenerator = require('./generators/pluralization');
-const numbersGenerator = require('./generators/numbers');
+const {AbstractExtension} = require('zombiebox');
 const datetimeGenerator = require('./generators/datetime');
+const numbersGenerator = require('./generators/numbers');
+const pluralizationGenerator = require('./generators/pluralization');
 
 
 /**
- * @implements {IZBAddon}
  */
-class Extension {
+class Extension extends AbstractExtension {
 	/**
-	 * @return {string}
+	 * @override
 	 */
 	getName() {
 		return 'i18n';
 	}
 
 	/**
-	 * @return {string}
+	 * @override
 	 */
-	getPublicDir() {
+	getSourcesDir() {
 		return path.join(__dirname, 'lib');
 	}
 
 	/**
-	 * @return {Object}
+	 * @override
 	 */
 	getConfig() {
-		return {};
+		return {
+			extensions: {
+				i18n: {
+					locales: []
+				}
+			}
+		};
 	}
 
 	/**
-	 * @param {ProjectConfig} projectConfig
-	 * @return {Object<string, string>}
+	 * @override
 	 */
 	generateCode(projectConfig) {
-		const locales = projectConfig.getCustomValue('i18n.locales') || [];
+		const {locales} = projectConfig.extensions.i18n;
 
 		return {
-			'pluralization-cardinals.js': plaralizationGenerator.generateCardinals(locales),
-			'pluralization-forms.js': plaralizationGenerator.generateForms(locales),
-			'numbers-currencies.js': numbersGenerator.generateCurrencies(locales),
-			'numbers-formats.js': numbersGenerator.generateFormats(locales),
-			'datetime-formats.js': datetimeGenerator.generateFormats(locales),
-			'datetime-relative.js': datetimeGenerator.generateRelativeFormats(locales)
+			'pluralization/cardinals.js': pluralizationGenerator.generateCardinals(locales),
+			'pluralization/forms.js': pluralizationGenerator.generateForms(locales),
+			'numbers/currencies.js': numbersGenerator.generateCurrencies(locales),
+			'numbers/formats.js': numbersGenerator.generateFormats(locales),
+			'datetime/formats.js': datetimeGenerator.generateFormats(locales),
+			'datetime/relative.js': datetimeGenerator.generateRelativeFormats(locales)
 		};
+	}
+
+	/**
+	 * @override
+	 */
+	buildCLI(yargs, application) {
+		return undefined;
 	}
 }
 
 
-/**
- * @type {IZBAddon}
- */
 module.exports = Extension;

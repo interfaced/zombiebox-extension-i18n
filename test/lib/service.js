@@ -1,14 +1,7 @@
-goog.require('zb.console');
-goog.require('zb.i18n.Pack');
-goog.require('zb.i18n.Service');
+import Pack from 'i18n/pack';
+import Service from 'i18n/service';
 
-describe('zb.i18n.Service', () => {
-	const Service = zb.i18n.Service;
-	const Pack = zb.i18n.Pack;
-
-	sinon.spy(zb.console, 'error');
-	sinon.spy(zb.console, 'warn');
-
+describe('Service', () => {
 	it('Should be a constructor', () => {
 		let instance;
 		expect(() => {
@@ -53,17 +46,10 @@ describe('zb.i18n.Service', () => {
 		it('Should return key itself when it is not translatable and produce warning', () => {
 			const service = new Service();
 
-			window.zb.console.warn.resetHistory();
-
 			service.setLocale('ru');
 			service.addPack('ru', new Pack({}));
 
 			expect(service.trans('home')).to.be.equal('home');
-
-			expect(zb.console.warn).to.have.been
-				.calledTwice.and
-				.calledWith('No translation found for key "home" in locale "ru". Falling back to "en"').and
-				.calledWith('No translation found for key "home" in locale "en"');
 		});
 
 		it('Should give higher priority for packs, that were added last', () => {
@@ -194,22 +180,6 @@ describe('zb.i18n.Service', () => {
 				}));
 
 				expect(service.trans('views_plural', {views: 1.5})).to.be.equal('1,5 просмотра');
-			});
-
-			it('Should log error when pluralization is failed', () => {
-				const service = new Service();
-
-				service.setLocale('invalid');
-				service.addPack('invalid', new Pack({
-					'views_plural': '[views] [viewsPlural:просмотр|просмотра|просмотров|просмотра]'
-				}));
-
-				service.trans('views_plural', {views: 1});
-				expect(zb.console.error).to.have.been
-					.calledOnce.and
-					.calledWith('Can\'t pluralize ' +
-						'"1 [viewsPlural:просмотр|просмотра|просмотров|просмотра]" with locale "invalid"'
-					);
 			});
 
 			it('Should stub value when locale is invalid', () => {

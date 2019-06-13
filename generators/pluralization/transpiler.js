@@ -1,5 +1,4 @@
 const b = require('ast-types').builders;
-const {createMemberExpression} = require('../utils');
 
 /**
  * TODO: is_relation, is_not_relation, within_relation, not_within_relation
@@ -81,7 +80,7 @@ function processInRelation(left, rangeList) {
 
 			case 'range':
 				return b.callExpression(
-					createMemberExpression(['zb', 'i18n', 'utils', 'isInIntegerRange']),
+					b.identifier('isInIntegerRange'),
 					[value, processValue(range.from), processValue(range.to)]
 				);
 

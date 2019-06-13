@@ -1,9 +1,8 @@
-goog.require('zb.i18n.Service');
-goog.require('zb.i18n.datetime.Form');
-goog.require('zb.i18n.datetime.Plugin');
-goog.require('zb.i18n.datetime.Tokenizer');
-goog.require('zb.i18n.datetime.Unit');
-goog.require('zb.i18n.datetime.data.formats');
+import formats from 'generated/i18n/datetime/formats';
+import Service from 'i18n/service';
+import {Form, Unit} from 'i18n/datetime/types';
+import DateTimePlugin from 'i18n/datetime/plugin';
+import Tokenizer from 'i18n/datetime/tokenizer';
 
 const ONE_SECOND = 1000;
 const ONE_MINUTE = 60 * ONE_SECOND;
@@ -11,11 +10,7 @@ const ONE_HOUR = 60 * ONE_MINUTE;
 const ONE_DAY = 24 * ONE_HOUR;
 const ONE_WEEK = 7 * ONE_DAY;
 
-describe('zb.i18n.datetime.Plugin', () => {
-	const DateTimePlugin = zb.i18n.datetime.Plugin;
-	const Tokenizer = zb.i18n.datetime.Tokenizer;
-	const Service = zb.i18n.Service;
-
+describe('Datetime plugin', () => {
 	const RU = 'ru';
 	const EN = 'en';
 	const NONE = 'non-existent';
@@ -78,7 +73,7 @@ describe('zb.i18n.datetime.Plugin', () => {
 			expect(i18n.time._tokenizer).to.be.instanceOf(Tokenizer);
 		});
 
-		describe('All tokens against all locales', () => {
+		describe('All tokens against all locales sanity check', () => {
 			const i18n = new Service();
 			const date = getDateStub();
 
@@ -89,16 +84,15 @@ describe('zb.i18n.datetime.Plugin', () => {
 					return;
 				}
 
-				Object.keys(zb.i18n.datetime.data.formats).forEach((locale) => {
+				Object.keys(formats).forEach((locale) => {
 					i18n.setLocale(locale);
 
-					it(`Token \`${token}\` should provide sane output for locale ${locale}`, () => {
-						expect(i18n.time._tokenizer.tokens[token](date))
-							.to.be.a('string')
-							.and.not.be.empty
-							.and.not.equal(token)
-							.and.not.equal(date);
-					});
+					const result = i18n.time._tokenizer.tokens[token](date);
+					expect(result, `Token \`${token}\` with locale ${locale}`)
+						.to.be.a('string')
+						.and.not.be.empty
+						.and.not.equal(token)
+						.and.not.equal(date);
 				});
 			});
 		});
@@ -203,25 +197,25 @@ describe('zb.i18n.datetime.Plugin', () => {
 		});
 
 		it('getTime method should provide valid time formatting', () => {
-			expect(i18n.time.getTime(date, zb.i18n.datetime.Form.SHORT)).to.equal('13:42');
+			expect(i18n.time.getTime(date, Form.SHORT)).to.equal('13:42');
 		});
 
 		it('getDate method should provide valid date formatting', () => {
-			expect(i18n.time.getDate(date, zb.i18n.datetime.Form.MEDIUM)).to.equal('4 июн. 2030 г.');
+			expect(i18n.time.getDate(date, Form.MEDIUM)).to.equal('4 июн. 2030 г.');
 		});
 
 		it('getDateTime method should provide valid date and time formatting', () => {
 			expect(i18n.time.getDateTime(
-				date, zb.i18n.datetime.Form.SHORT,
-				zb.i18n.datetime.Form.LONG,
-				zb.i18n.datetime.Form.SHORT
+				date, Form.SHORT,
+				Form.LONG,
+				Form.SHORT
 			))
 				.to.equal('4 июня 2030 г., 13:42');
 		});
 	});
 
 	describe('Relative time', () => {
-		const {YEAR, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND} = zb.i18n.datetime.Unit;
+		const {YEAR, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND} = Unit;
 		let i18n;
 
 		beforeEach(() => {

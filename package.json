@@ -1,16 +1,21 @@
 {
   "name": "zombiebox-extension-i18n",
-  "version": "0.6.0",
+  "version": "2.0.0",
   "description": "ZombieBox extension for i18n and l10n",
   "license": "MIT",
-  "author": "Interfaced (http://interfaced.tv)",
+  "author": "Interfaced (https://interfaced.tv)",
   "contributors": [
     "Kirill Dronkin <kirilldronkin@gmail.com>",
     "Ilya Kalashnikov <npm@kalashnikov.ir>"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:interfaced/zombiebox-extension-i18n.git"
+  },
   "keywords": [
     "zombiebox",
     "extension",
+    "smart-tv",
     "internationalization",
     "i18n",
     "localization",
@@ -26,39 +31,44 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">=6",
+    "node": ">=8.9",
     "npm": ">=5"
   },
+  "module": "lib",
   "scripts": {
-    "test": "node scripts/generate-test-fixtures.js && karma start test/config.js --single-run",
-    "lint": "eslint index.js lib test generators scripts"
+    "test.generate": "node scripts/generate-test-data.js",
+    "test.run": "karma start test/config.js",
+    "test": "npm run test.generate && npm run test.run",
+    "lint": "eslint ."
   },
   "devDependencies": {
-    "chai": "4.1.2",
-    "eslint": "5.0.1",
-    "eslint-config-interfaced": "1.0.0",
-    "eslint-plugin-goog": "1.0.0",
-    "eslint-plugin-interfaced": "1.0.0",
-    "karma": "0.13.22",
-    "karma-chai": "0.1.0",
-    "karma-chai-sinon": "0.1.5",
-    "karma-chrome-launcher": "2.2.0",
-    "karma-closure": "github:ifaced/karma-closure",
-    "karma-coverage": "0.5.3",
-    "karma-mocha": "0.1.10",
-    "karma-mocha-reporter": "1.1.5",
-    "karma-sinon": "1.0.4",
-    "mocha": "5.2.0",
-    "sinon": "6.1.0",
-    "sinon-chai": "3.2.0",
-    "zombiebox": "1.0.0-beta3"
+    "chai": "^4.2.0",
+    "cutejs": "^2.0.0-alpha.1",
+    "eslint": "^5.16.0",
+    "eslint-config-interfaced": "^1.5.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-interfaced": "^1.6.1",
+    "eslint-plugin-node": "^9.1.0",
+    "fs-extra": "^8.0.1",
+    "karma": "^4.1.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-module-resolver-preprocessor": "^1.1.1",
+    "mocha": "^6.1.4",
+    "zombiebox": "^2.0.0-alpha.8"
   },
   "dependencies": {
-    "ast-types": "0.11.5",
-    "cldr-core": "^34.0.0",
-    "cldr-dates-modern": "^34.0.0",
-    "cldr-numbers-modern": "^34.0.0",
-    "escodegen": "1.10.0",
-    "jison": "0.4.18"
+    "ast-types": "~0.13.1",
+    "cldr-core": "^35.1.0",
+    "cldr-dates-modern": "^35.1.0",
+    "cldr-numbers-modern": "^35.1.0",
+    "escodegen": "^1.11.1",
+    "jison": "~0.4.18"
+  },
+  "peerDependencies": {
+    "zombiebox": "^2.0.0-alpha.8"
   }
 }

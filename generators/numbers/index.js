@@ -1,4 +1,4 @@
-const {iterateCLDRData, generateDataModule, convertJSONValueToAST} = require('../utils');
+const {iterateCLDRData, generateImport, generateDataModule, convertJSONValueToAST} = require('../utils');
 
 /**
  * @param {string} locale
@@ -74,12 +74,10 @@ const generator = {
 			data[locale] = convertJSONValueToAST(processCurrenciesData(locale, localeData));
 		}
 
-		return generateDataModule(
-			'zb.i18n.numbers.data.currencies',
-			['zb.i18n.numbers.Currency', 'zb.i18n.numbers.CurrencyFormat'],
-			'Object<zb.i18n.numbers.Currency, zb.i18n.numbers.CurrencyFormat>',
-			data
-		);
+		return generateDataModule(data, 'Object<Currency, CurrencyFormat>', [
+			generateImport('Currency', 'i18n/numbers/types'),
+			generateImport('CurrencyFormat', 'i18n/numbers/types')
+		]);
 	},
 
 	/**
@@ -93,12 +91,9 @@ const generator = {
 			data[locale] = convertJSONValueToAST(processNumbersData(locale, localeData));
 		}
 
-		return generateDataModule(
-			'zb.i18n.numbers.data.formats',
-			['zb.i18n.numbers.Format'],
-			'zb.i18n.numbers.Format',
-			data
-		);
+		return generateDataModule(data, 'Format', [
+			generateImport('Format', 'i18n/numbers/types')
+		]);
 	}
 };
 

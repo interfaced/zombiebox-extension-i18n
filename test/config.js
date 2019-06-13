@@ -1,79 +1,52 @@
-const zbDeps = ['lib/vendor/base.js', 'console/interfaces/i-logger.js', 'console.js'];
+const path = require('path');
 
-/**
- * @param {*} config
- */
+function resolveZbModule(name) {
+	const packageJsonPath = require.resolve(`${name}/package.json`);
+	const packageJsonContent = require(`${name}/package.json`); // eslint-disable-line global-require
+	return path.resolve(path.dirname(packageJsonPath), packageJsonContent.module);
+}
+
+const zbPath = resolveZbModule('zombiebox');
+const cutejsPath = resolveZbModule('cutejs');
+const generatedPath = path.resolve(__dirname, 'generated');
+const i18nPath = path.resolve(__dirname, '../lib');
+const testsPath = 'lib';
+
+const [zbFiles, cutejsFiles, generatedFiles, i18nFiles, testsFiles] =
+	[zbPath, cutejsPath, generatedPath, i18nPath, testsPath].map((root) => root + '/**/*.js');
+
 module.exports = (config) => {
 	config.set({
-		// Base path that will be used to resolve all patterns (eg. files, exclude)
-		basePath: '',
-
-		// List of files/patterns to load in the browser
-		files: [
-			...zbDeps.map((file) => `../node_modules/zombiebox/zb/${file}`),
-			'fixtures/*.js',
-			'../lib/**/*.js',
-			'lib/*.js'
-		],
-
-		// Available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: [
-			'closure',
-			'mocha',
-			'chai-sinon',
-			'chai',
-			'sinon'
-		],
-
-		// Available preprocessors: https://npmjs.com/browse/keyword/karma-preprocessor
-		preprocessors: {
-			'../node_modules/zombiebox/zb/**/*.js': ['closure'],
-			'fixtures/*.js': ['closure'],
-			'../lib/**/*.js': ['closure', 'coverage'],
-			'lib/*.js': ['closure']
-		},
-
-		// Available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: [
-			process.platform === 'darwin' ? 'ChromeCanaryHeadless' : 'ChromeHeadless'
-		],
-
-		// Available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: [
-			'mocha',
-			'coverage'
-		],
-
-		// Web server port
-		port: 9876,
-
-		// Level of logging
-		logLevel: 'INFO',
-
-		// Enable/disable colors in the output (reporters and logs)
-		colors: true,
-
-		// Enable/disable watching file and executing tests whenever any file changes
 		autoWatch: false,
+		singleRun: true,
 
-		// If true, Karma captures browsers, runs the tests and exist
-		singleRun: false,
+		frameworks: ['mocha', 'chai'],
+		reporters: ['mocha'],
+		browsers: ['ChromeHeadless'],
 
-		// How long will Karma wait for a message from a browser before disconnecting from it (in ms)
-		browserNoActivityTimeout: 30000,
+		files: [
+			{type: 'module', pattern: zbFiles},
+			{type: 'module', pattern: cutejsFiles},
+			{type: 'module', pattern: generatedFiles},
+			{type: 'module', pattern: i18nFiles},
+			{type: 'module', pattern: testsFiles}
+		],
 
-		// Client-specific options
-		client: {
-			captureConsole: true,
-			mocha: {
-				timeout: 10000
-			}
+		preprocessors: {
+			[zbFiles]: ['module-resolver'],
+			[cutejsFiles]: ['module-resolver'],
+			[generatedFiles]: ['module-resolver'],
+			[i18nFiles]: ['module-resolver'],
+			[testsFiles]: ['module-resolver']
 		},
 
-		// Istanbul code coverage tool's config
-		coverageReporter: {
-			type: 'html',
-			dir: 'coverage'
+		moduleResolverPreprocessor: {
+			aliases: {
+				'zb': zbPath,
+				'cutejs': cutejsPath,
+				'generated': generatedPath,
+				'i18n': i18nPath
+			}
 		}
 	});
 };

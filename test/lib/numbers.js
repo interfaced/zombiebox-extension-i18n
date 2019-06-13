@@ -1,15 +1,11 @@
-goog.require('zb.i18n.Pack');
-goog.require('zb.i18n.Service');
-goog.require('zb.i18n.numbers.CurrencySymbolType');
-goog.require('zb.i18n.numbers.Plugin');
+import Pack from 'i18n/pack';
+import Service from 'i18n/service';
+import {CurrencySymbolType} from 'i18n/numbers/types';
+import NumbersPlugin from 'i18n/numbers/plugin';
 
 // Note: spaces in Russian locale are non-breaking spaces (" "), be careful not to confuse them with regular spaces
 
-describe('zb.i18n.numbers.Plugin', () => {
-	const NumbersPlugin = zb.i18n.numbers.Plugin;
-	const Service = zb.i18n.Service;
-	const Pack = zb.i18n.Pack;
-
+describe('Numbers plugin', () => {
 	it('Should be a constructor', () => {
 		let instance;
 		expect(() => {
@@ -105,10 +101,10 @@ describe('zb.i18n.numbers.Plugin', () => {
 		it('Should should accept symbol type argument', () => {
 			i18n.setLocale('ru-RU');
 
-			expect(i18n.numbers.formatCurrency(1000000, 'AUD', false, zb.i18n.numbers.CurrencySymbolType.NARROW))
+			expect(i18n.numbers.formatCurrency(1000000, 'AUD', false, CurrencySymbolType.NARROW))
 				.to.equal('1 000 000 $');
 
-			expect(i18n.numbers.formatCurrency(1000000, 'AUD', false, zb.i18n.numbers.CurrencySymbolType.FULL))
+			expect(i18n.numbers.formatCurrency(1000000, 'AUD', false, CurrencySymbolType.FULL))
 				.to.equal('1 000 000 A$');
 		});
 

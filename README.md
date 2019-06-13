@@ -17,14 +17,17 @@ module.exports = () => ({
 Instantiate the service and add some language packs:
 
 ```js
+import Service from 'i18n/service';
+import Pack from 'i18n/pack';
+
 const enUsData = {
     'home': {
         'title': 'Home'
     }
 };
 
-const i18n = new zb.i18n.Service();
-i18n.addPack('en-US', new zb.i18n.Pack(enUsData));
+const i18n = Service();
+i18n.addPack('en-US', Pack(enUsData));
 i18n.setLocale('en-US');
 
 i18n.trans('home.title'); // "Home"
@@ -51,13 +54,13 @@ The extension is built upon [Unicode CLDR](http://cldr.unicode.org/) project and
 Default fallback locale is `en-US`, but it can be changed with `setFallbackLocale`.
 
 ```js
-i18n.addPack('en-US', new zb.i18n.Pack({
+i18n.addPack('en-US', new Pack({
 	'home': {
 		'title': 'Home'
 	}
 }));
 
-i18n.addPack('ru-RU', new zb.i18n.Pack({
+i18n.addPack('ru-RU', new Pack({
 	'player': 'Плеер',
 	'home': {
 		'title': 'Главная'
@@ -173,6 +176,13 @@ The extension sometimes makes some assumptions and simplifications about data or
 
  * Timezone names are not supported in time formatting.
  
+Context object (the second argument of `trans` method) keys must be quoted according to the restrictions imposed by the Closure Compiler (see [Implications of global variable, function, and property renaming](https://developers.google.com/closure/compiler/docs/limitations#implications-of-global-variable-function-and-property-renaming)):
+
+```js
+i18n.trans('video-views', {views: 3}); // Bad
+i18n.trans('video-views', {'views': 3}); // Good
+```
+
 Context object (the second argument of `trans` method) keys must be quoted according to the restrictions imposed by the Closure Compiler (see [Implications of global variable, function, and property renaming](https://developers.google.com/closure/compiler/docs/limitations#implications-of-global-variable-function-and-property-renaming)):
 
 ```js

@@ -1,10 +1,8 @@
-goog.require('zb.i18n.Pack');
+import Pack from 'i18n/pack';
 
-describe('zb.i18n.Pack', () => {
-	const Pack = zb.i18n.Pack;
-
+describe('Pack', () => {
 	/**
-	 * @return {zb.i18n.Pack.Map}
+	 * @return {Pack.Map}
 	 */
 	function createMap() {
 		return {

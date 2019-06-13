@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const jison = require('jison');
 const {transpile} = require('./transpiler');
-const {generateDataModule, convertJSONValueToAST} = require('../utils');
+const {generateImport, generateDataModule, convertJSONValueToAST} = require('../utils');
 
 const pluralsData = require('cldr-core/supplemental/plurals.json');
 const cardinalData = pluralsData['supplemental']['plurals-type-cardinal'];
@@ -52,12 +52,10 @@ const generator = {
 			}
 		}
 
-		return generateDataModule(
-			'zb.i18n.pluralization.data.cardinals',
-			['zb.i18n.pluralization.PluralizationFunction', 'zb.i18n.utils'],
-			'zb.i18n.pluralization.PluralizationFunction',
-			data
-		);
+		return generateDataModule(data, 'PluralizationFunction', [
+			generateImport('PluralizationFunction', 'i18n/pluralization/types'),
+			generateImport('isInIntegerRange', 'i18n/utils')
+		]);
 	},
 
 	/**
@@ -73,12 +71,9 @@ const generator = {
 			}
 		}
 
-		return generateDataModule(
-			'zb.i18n.pluralization.data.forms',
-			['zb.i18n.pluralization.Form'],
-			'Array<zb.i18n.pluralization.Form>',
-			data
-		);
+		return generateDataModule(data, 'Array<Form>', [
+			generateImport('Form', 'i18n/pluralization/types')
+		]);
 	}
 };
 

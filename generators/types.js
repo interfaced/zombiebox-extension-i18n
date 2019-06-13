@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 /**
  * @typedef {Object}
  */
@@ -13,6 +15,7 @@ let ASTNode;
  */
 let CLDRRule;
 
+
 /**
  * @typedef {{
  *     integer: ?string,
@@ -20,6 +23,7 @@ let CLDRRule;
  * }}
  */
 let CLDRSampleList;
+
 
 /**
  * @typedef {{
@@ -29,6 +33,7 @@ let CLDRSampleList;
  */
 let CLDRCondition;
 
+
 /**
  * @typedef {{
  *     type: string,
@@ -36,6 +41,7 @@ let CLDRCondition;
  * }}
  */
 let CLDRRelation;
+
 
 /**
  * @typedef {{
@@ -46,10 +52,12 @@ let CLDRRelation;
  */
 let CLDRExpression;
 
+
 /**
  * @typedef {Array<CLDRRange>}
  */
 let CLDRRangeList;
+
 
 /**
  * @typedef {{
@@ -61,15 +69,18 @@ let CLDRRangeList;
  */
 let CLDRRange;
 
+
 /**
- * @typedef {"n"|"i"|"f"|"t"|"v"|"w"}
+ * @typedef {string} one of: "n", "i", "f", "t", "v", "w"
  */
 let CLDROperand;
+
 
 /**
  * @typedef {number}
  */
 let CLDRValue;
+
 
 /**
  * @typedef {CLDRCondition|CLDRRelation|CLDRExpression}
