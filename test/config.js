@@ -46,7 +46,8 @@ module.exports = (config) => {
 				'cutejs': cutejsPath,
 				'generated': generatedPath,
 				'i18n': i18nPath
-			}
+			},
+			ecmaVersion: 10
 		}
 	});
 };

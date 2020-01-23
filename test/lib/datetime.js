@@ -205,11 +205,7 @@ describe('Datetime plugin', () => {
 		});
 
 		it('getDateTime method should provide valid date and time formatting', () => {
-			expect(i18n.time.getDateTime(
-				date, Form.SHORT,
-				Form.LONG,
-				Form.SHORT
-			))
+			expect(i18n.time.getDateTime(date, Form.SHORT, Form.LONG, Form.SHORT))
 				.to.equal('4 июня 2030 г., 13:42');
 		});
 	});

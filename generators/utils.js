@@ -1,5 +1,6 @@
 const escodegen = require('escodegen');
 const b = require('ast-types').builders;
+const {ASTNode} = require('./types');
 
 /**
  * @param {string} packageName

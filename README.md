@@ -9,7 +9,7 @@ The extension generates pluralization and formats data for necessary locales on 
 ```js
 module.exports = () => ({
 	i18n: {
-		locales: ['ru-RU', 'en-US']
+		locales: ['ru', 'en', 'es-BR']
 	}
 });
 ```
@@ -26,7 +26,7 @@ const enUsData = {
     }
 };
 
-const i18n = Service();
+const i18n = new Service();
 i18n.addPack('en-US', Pack(enUsData));
 i18n.setLocale('en-US');
 
@@ -75,7 +75,7 @@ i18n.trans('player'); // "Плеер", because pack en-US has no key "player" an
 ## Interpolation
 
 ```js
-i18n.addPack('en-US', new zb.i18n.Pack({
+i18n.addPack('en-US', new Pack({
 	'video-views': 'This video was viewed [views] time(s)'
 }));
 
@@ -88,7 +88,7 @@ If you wish to preformat a number, supply it as a `string`.
 ## Pluralization
 
 ```js
-i18n.addPack('en-US', new zb.i18n.Pack({
+i18n.addPack('en-US', new Pack({
 	'video-views-plural': 'This video was viewed [views] [viewsPlural:time|times]'
 }));
 
@@ -99,7 +99,7 @@ i18n.trans('video-views-plural', {'views': 3}); // "This video was viewed 3 time
 Plural forms separator can be customized with `pluralization.setFormsSeparator`.
 
 ```js
-i18n.addPack('en-US', new zb.i18n.Pack({
+i18n.addPack('en-US', new Pack({
 	'video-views-plural': 'This video was viewed [views] [viewsPlural:time*times]'
 }));
 
@@ -111,7 +111,7 @@ i18n.trans('video-views-plural', {'views': 1}); // "This video was viewed 1 time
 When pluralization fails the value will be stubbed with string "`???`" by default, but it can be customized with `pluralization.setValueStub`.
 
 ```js
-i18n.addPack('en-US', new zb.i18n.Pack({
+i18n.addPack('en-US', new Pack({
 	'video-views-plural': 'This video was viewed [views] [viewsPlural:time]'
 }));
 
@@ -125,7 +125,7 @@ i18n.trans('video-views-plural', {'views': 3}); //  "This video was viewed 1 ---
 Sometimes pack keys cannot be modified (e.g. if the pack was fetched from external API). For such cases packs have `forwardKeys` method that maps keys to their new values.
 
 ```js
-const enPack = new zb.i18n.Pack({
+const enPack = new Pack({
 	'hom': 'Home'
 });
 
@@ -143,7 +143,7 @@ i18n.trans('home'); // "Home"
 Separator can be customized with `pluralization.setKeySeparator`.
 
 ```js
-const enPack = new zb.i18n.Pack({
+const enPack = new Pack({
 	'home': {
 		'title': 'Home'
 	}

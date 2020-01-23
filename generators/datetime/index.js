@@ -100,6 +100,9 @@ const generator = {
 	generateFormats(locales) {
 		const data = {};
 
+		// TODO: This iterates locales exactly as specified, but should attempt to reduce them same reduceLocale in lib
+		// i.e. If locale is set in config as "ru-RU" this will fail to produce data set both for "ru-RU" and "ru".
+		// Ditto other generators.
 		for (const [locale, localeData] of iterateCLDRData('cldr-dates-modern', 'ca-gregorian.json', locales)) {
 			data[locale] = convertJSONValueToAST(processTimeData(locale, localeData));
 		}

@@ -1,5 +1,11 @@
 # Change log
 
+## 2.1.0 (release date: 23.01.2020)
+
+* Actualise dependencies, most notably:
+  * ZombieBox to 2.5.0
+  * CLDR dataset to 35 
+
 ## 2.0.0 (release date: 13.06.2019)
 
 * Support ZombieBox 2.0

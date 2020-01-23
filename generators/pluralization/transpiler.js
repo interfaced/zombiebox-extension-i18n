@@ -1,4 +1,16 @@
 const b = require('ast-types').builders;
+const {
+	ASTNode,
+	CLDRRule,
+	CLDRCondition,
+	CLDRRelation,
+	CLDRExpression,
+	CLDRRangeList,
+	CLDROperand,
+	CLDRValue,
+	CLDRNode
+} = require('../types');
+
 
 /**
  * TODO: is_relation, is_not_relation, within_relation, not_within_relation

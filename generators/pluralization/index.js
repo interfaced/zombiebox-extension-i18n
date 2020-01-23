@@ -8,7 +8,7 @@ const pluralsData = require('cldr-core/supplemental/plurals.json');
 const cardinalData = pluralsData['supplemental']['plurals-type-cardinal'];
 
 const parser = new jison.Parser(fs.readFileSync(path.resolve(__dirname, './grammar.jison'), 'utf8'));
-
+const {ASTNode, CLDRRule} = require('../types');
 /**
  * @param {Object} data
  * @return {ASTNode}

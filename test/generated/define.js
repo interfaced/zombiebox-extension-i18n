@@ -6,4 +6,4 @@ export const ENABLE_CONSOLE = true;
 /**
  * @const {string}
  */
-export const PLATFORM_NAME = "";
+export const NPM_PACKAGE_NAME = 'placeholder';

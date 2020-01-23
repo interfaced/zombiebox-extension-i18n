@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 /**
  * @typedef {Object}
  */
@@ -86,3 +84,18 @@ let CLDRValue;
  * @typedef {CLDRCondition|CLDRRelation|CLDRExpression}
  */
 let CLDRNode;
+
+
+module.exports = {
+	ASTNode,
+	CLDRRule,
+	CLDRSampleList,
+	CLDRCondition,
+	CLDRRelation,
+	CLDRExpression,
+	CLDRRangeList,
+	CLDRRange,
+	CLDROperand,
+	CLDRValue,
+	CLDRNode
+};
