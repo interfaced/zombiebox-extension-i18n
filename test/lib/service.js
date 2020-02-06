@@ -67,6 +67,18 @@ describe('Service', () => {
 			expect(service.trans('home')).to.be.equal('Home');
 		});
 
+		it('Should reduce locale', () => {
+			const service = new Service();
+
+			service.setLocale('en-US');
+			service.setFallbackLocale('ru');
+			service.addPack('en', new Pack({
+				'home': 'Home'
+			}));
+
+			expect(service.trans('home')).to.be.equal('Home');
+		});
+
 		describe('Interpolation', () => {
 			it('Should interpolate value', () => {
 				const service = new Service();
@@ -270,6 +282,17 @@ describe('Service', () => {
 			expect(() => {
 				service.addPack('ru-RU', pack);
 			}).not.to.throw();
+		});
+
+		it('Should not reduce locale', () => {
+			const service = new Service();
+
+			service.setLocale('en');
+			service.addPack('en-US', new Pack({
+				'home': 'Home'
+			}));
+
+			expect(service.trans('home')).to.be.equal('home');
 		});
 	});
 

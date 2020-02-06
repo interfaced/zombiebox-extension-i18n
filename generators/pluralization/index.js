@@ -9,6 +9,9 @@ const cardinalData = pluralsData['supplemental']['plurals-type-cardinal'];
 
 const parser = new jison.Parser(fs.readFileSync(path.resolve(__dirname, './grammar.jison'), 'utf8'));
 const {ASTNode, CLDRRule} = require('../types');
+const logger = require('../logger');
+
+
 /**
  * @param {Object} data
  * @return {ASTNode}
@@ -45,10 +48,12 @@ const generator = {
 	 */
 	generateCardinals(locales) {
 		const data = {};
+		const languages = new Set(locales.map((locale) => locale.split('-')[0]));
+		logger.verbose(`Generating cardinals for: ${Array.from(languages).join(', ')}`);
 
-		for (const locale of locales) {
-			if (cardinalData[locale] && locale !== 'root') {
-				data[locale] = parseAndTranspileForms(cardinalData[locale]);
+		for (const language of languages) {
+			if (cardinalData[language] && language !== 'root') {
+				data[language] = parseAndTranspileForms(cardinalData[language]);
 			}
 		}
 
@@ -64,10 +69,12 @@ const generator = {
 	 */
 	generateForms(locales) {
 		const data = {};
+		const languages = new Set(locales.map((locale) => locale.split('-')[0]));
+		logger.verbose(`Generating pluralisation forms for: ${Array.from(languages).join(', ')}`);
 
-		for (const locale of locales) {
-			if (cardinalData[locale] && locale !== 'root') {
-				data[locale] = convertJSONValueToAST(extractForms(cardinalData[locale]));
+		for (const language of languages) {
+			if (cardinalData[language] && language !== 'root') {
+				data[language] = convertJSONValueToAST(extractForms(cardinalData[language]));
 			}
 		}
 

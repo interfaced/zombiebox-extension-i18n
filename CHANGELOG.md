@@ -1,5 +1,10 @@
 # Change log
 
+## 2.1.1 (release date: 06.02.2020)
+
+* Fix locales not being reduced during generation
+* Update to ZombieBox 2.6 and integrate its logger
+
 ## 2.1.0 (release date: 23.01.2020)
 
 * Actualise dependencies, most notably:

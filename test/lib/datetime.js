@@ -102,7 +102,7 @@ describe('Datetime plugin', () => {
 		let i18n;
 		let date;
 
-		before(() => {
+		beforeEach(() => {
 			i18n = new Service();
 			i18n.setLocale(RU);
 			date = getDateStub();
@@ -110,6 +110,11 @@ describe('Datetime plugin', () => {
 
 		it('Should process arbitrary format', () => {
 			expect(i18n.time.format(date, 'EEE MMM a s \'escaped\'')).to.equal('вт июн. pm 6 escaped');
+		});
+
+		it('Should reduce locale', () => {
+			i18n.setLocale(RU + '-DOES-NOT-EXIST');
+			expect(i18n.time.format(date, 'EEEE')).to.equal('вторник');
 		});
 	});
 
@@ -243,6 +248,15 @@ describe('Datetime plugin', () => {
 				expect(relative(-ONE_DAY)).to.equal('1 день назад');
 				expect(relative(-2 * ONE_DAY)).to.equal('2 дня назад');
 				expect(relative(-5 * ONE_DAY)).to.equal('5 дней назад');
+			});
+
+			it('Should reduce locale', () => {
+				const today = getDateStub();
+				const relative = (diff) => i18n.time.relative(getDateStub(diff), today, {useAdverbs: false});
+
+				i18n.setLocale(RU + '-DOES-NOT-EXIST');
+
+				expect(relative(-ONE_DAY)).to.equal('1 день назад');
 			});
 		});
 

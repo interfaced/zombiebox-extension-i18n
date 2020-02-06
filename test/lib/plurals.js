@@ -11,7 +11,7 @@ const {
 	OTHER
 } = Form;
 
-const validForms = [ZERO, ONE, TWO, FEW, MANY, OTHER];
+const validForms = Object.values(Form);
 const testValues = [
 	-10.5, -1,
 	0, 1, 2, 3, 5, 12, 13, 100,
@@ -23,12 +23,12 @@ const testValues = [
 describe('Pluralization data', () => {
 	/**
 	 * @param {number} start
-	 * @param {number} count
+	 * @param {number} end
 	 * @return {Array<number>}
 	 */
-	function range(start, count) {
+	function inclusiveRange(start, end) {
 		return Array
-			.apply(0, new Array(count))
+			.apply(0, new Array(end - start + 1))
 			.map((element, index) => index + start);
 	}
 
@@ -71,9 +71,40 @@ describe('Pluralization data', () => {
 			expect(localeCardinal(0)).to.be.equal(OTHER);
 			expect(localeCardinal(1)).to.be.equal(ONE);
 
-			range(2, 1000).forEach((number) => {
+			inclusiveRange(2, 1000).forEach((number) => {
 				expect(localeCardinal(number)).to.be.equal(OTHER);
 			});
+		});
+	});
+
+	describe('"ar" language', () => {
+		it('Should provide valid logic for cardinal', () => {
+			const localeCardinal = cardinals['ar'];
+			const localeForms = forms['ar'];
+
+			expect(localeForms).to.be.deep.equal([
+				ZERO,
+				ONE,
+				TWO,
+				FEW,
+				MANY,
+				OTHER
+			]);
+
+			expect(localeCardinal(0)).to.be.equal(ZERO);
+			expect(localeCardinal(1)).to.be.equal(ONE);
+			expect(localeCardinal(2)).to.be.equal(TWO);
+			inclusiveRange(3, 10).forEach((number) => {
+				expect(localeCardinal(number)).to.be.equal(FEW);
+			});
+			expect(localeCardinal(503)).to.be.equal(FEW);
+			inclusiveRange(11, 99).forEach((number) => {
+				expect(localeCardinal(number)).to.be.equal(MANY);
+			});
+			expect(localeCardinal(112)).to.be.equal(MANY);
+			expect(localeCardinal(799)).to.be.equal(MANY);
+			expect(localeCardinal(100)).to.be.equal(OTHER);
+			expect(localeCardinal(101)).to.be.equal(OTHER);
 		});
 	});
 

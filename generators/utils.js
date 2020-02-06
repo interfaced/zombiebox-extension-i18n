@@ -1,6 +1,8 @@
 const escodegen = require('escodegen');
 const b = require('ast-types').builders;
 const {ASTNode} = require('./types');
+const logger = require('./logger');
+
 
 /**
  * @param {string} packageName
@@ -9,12 +11,22 @@ const {ASTNode} = require('./types');
  * @yield {Array<string|Object>}
  */
 function* iterateCLDRData(packageName, fileName, locales) {
-	for (const locale of locales) {
-		try {
-			// eslint-disable-next-line global-require
-			yield [locale, require(`${packageName}/main/${locale}/${fileName}`)];
-		} catch (e) {
-			console.warn(`Can't find "${packageName}/${fileName}" for locale "${locale}"`);
+	for (const fullLocale of locales) {
+		for (const locale of reduceLocale(fullLocale)) {
+			const filePath = `${packageName}/main/${locale}/${fileName}`;
+
+			try {
+				// eslint-disable-next-line global-require
+				yield [locale, require(filePath)];
+				logger.silly(`Found "${fullLocale}" as "${locale}" data in ${filePath}`);
+				break; // To next fullLocale
+			} catch (e) {
+				if (e.code === 'MODULE_NOT_FOUND') {
+					logger.warn(`Can't find locale "${locale}" in CLDR corpus "${packageName}"`);
+				} else {
+					throw e;
+				}
+			}
 		}
 	}
 }
@@ -95,6 +107,22 @@ function generateImport(originalName, path, defaultImport = false) {
 function generateDefaultExport(declaration) {
 	return b.exportDefaultDeclaration(declaration);
 }
+
+
+/**
+ * Reduces given locale by discarding tags from right to left
+ * Note that a similar function exists in ../lib/utils.js because they run in different environments
+ * @param {string} locale
+ * @yield {string}
+ */
+function* reduceLocale(locale) {
+	const parts = locale.split('-');
+
+	for (let i = parts.length; i; i--) {
+		yield parts.slice(0, i).join('-');
+	}
+}
+
 
 module.exports = {
 	iterateCLDRData,

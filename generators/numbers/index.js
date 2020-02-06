@@ -1,4 +1,5 @@
 const {iterateCLDRData, generateImport, generateDataModule, convertJSONValueToAST} = require('../utils');
+const logger = require('../logger');
 
 /**
  * @param {string} locale
@@ -9,6 +10,7 @@ function processCurrenciesData(locale, input) {
 	const output = {};
 
 	const currencies = input.main[locale].numbers.currencies;
+	logger.silly(`Generating currencies for locale ${locale}: ${currencies && Object.keys(currencies).join(', ')}`);
 
 	Object.keys(currencies)
 		.forEach((currency) => {
@@ -68,6 +70,7 @@ const generator = {
 	 * @return {string}
 	 */
 	generateCurrencies(locales) {
+		logger.verbose(`Generating currencies for: ${locales.join(', ')}`);
 		const data = {};
 
 		for (const [locale, localeData] of iterateCLDRData('cldr-numbers-modern', 'currencies.json', locales)) {
@@ -85,6 +88,7 @@ const generator = {
 	 * @return {string}
 	 */
 	generateFormats(locales) {
+		logger.verbose(`Generating number formats for: ${locales.join(', ')}`);
 		const data = {};
 
 		for (const [locale, localeData] of iterateCLDRData('cldr-numbers-modern', 'numbers.json', locales)) {
